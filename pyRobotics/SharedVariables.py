@@ -222,7 +222,7 @@ def _CreateSharedVar(svType, name):
     
 def _WriteSharedVar(sharedVarType, name, data):
     
-    w = data
+    w = str(data)
     if sharedVarType == SharedVarTypes.BYTE_ARRAY:
         w = '0x' + ''.join([ "%02X" % x for x in data ])
     elif sharedVarType in [SharedVarTypes.INT, SharedVarTypes.LONG]:
@@ -237,6 +237,9 @@ def _WriteSharedVar(sharedVarType, name, data):
         w = SharedVar._SerializeString(data)
     elif sharedVarType == SharedVarTypes.MATRIX:
         w = SharedVar._SerializeMatrix(data)
+    else:
+        print 'pyRobotics - ERROR: Unhandled shared var type'
+        return False
     
     r = BB.SendAndWait(Command('write_var', sharedVarType + ' ' + name + ' ' + w), 2000, 2)
     

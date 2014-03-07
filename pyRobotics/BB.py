@@ -78,17 +78,21 @@ def __MainThread():
     global _receivedCommands, __executors
     while True:
         command = _receivedCommands.get()
-        
-        if command.name in __executors:
-            func, async = __executors[command.name]
-            if async:
-                p = threading.Thread(target=__Execute, args=(func, command))
-                p.daemon = True
-                p.start()
+        key = command.name
+        if key not in __executors:
+            if '*' in __executors:
+                key = '*'
             else:
-                __Execute(func, command)
+                print 'Executor not found for command: ' + command.name
+                return
+        
+        func, async = __executors[key]
+        if async:
+            p = threading.Thread(target=__Execute, args=(func, command))
+            p.daemon = True
+            p.start()
         else:
-            print 'Executor not found for command: ' + command.name
+            __Execute(func, command)
 
 def __Execute(func, command):
     try:
