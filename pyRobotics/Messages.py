@@ -121,7 +121,10 @@ class Response(Message):
         return r
     
     @classmethod
-    def FromCommandObject(cls, commandObj, successful = False, response = ''):
+    def FromCommandObject(cls, commandObj, successful = False, response = None):
+        
+        if not response:
+            response = commandObj.params
         
         if not isinstance(commandObj, Command):
             raise Exception('commandObj not instance of Command in Response.FromCommandObject.')
