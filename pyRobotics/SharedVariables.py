@@ -98,8 +98,10 @@ class SharedVar(Message):
 
     @classmethod
     def _SerializeString(cls, data):
-        if not data:
+        if data is None:
             return 'null'
+        
+        data = data.strip()
         
         data = data.replace('"', '\\"')
         data = data.replace('\\', '\\\\\\')

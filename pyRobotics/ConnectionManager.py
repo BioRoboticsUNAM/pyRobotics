@@ -113,6 +113,8 @@ class ConnectionManager(object):
             sent = self.sock.send(repr(message) + '\0')
         except:
             print 'Something went bad while sending a message.'
+            print '[Message:] ' + str(message)
+            print type(message)
             return False
         
         if sent != len(repr(message)) + 1:

@@ -2,7 +2,7 @@
 @author: arcra
 '''
 
-import multiprocessing, re
+import threading, re
 from abc import ABCMeta
 
 class MessageTypes(object):
@@ -37,7 +37,7 @@ class Message(object):
     def __repr__(self):
         textrep = self.name
         if not self._isStandardCommand():
-            textrep += ' "' + self.params + '"'
+            textrep += ' "' + str(self.params) + '"'
         if self.type in [MessageTypes.RESPONSE, MessageTypes.SHARED_VAR]:
             textrep += ' ' + str(int(self.successful))
         if self._id > -1:
@@ -47,7 +47,7 @@ class Message(object):
 class Command(Message):
     
     _idCounter = 1
-    _idLock = multiprocessing.Lock()
+    _idLock = threading.Lock()
     
     __rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+"(?P<params>(\\.|[^"])*)")?(\s+@(?P<id>\d+))?$')
     
