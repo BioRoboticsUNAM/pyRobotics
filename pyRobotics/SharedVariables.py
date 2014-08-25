@@ -7,7 +7,7 @@ from Messages import Message, MessageTypes, Command, Response
 
 class SharedVar(Message):
     
-    __rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("[^"]*")|({[^}]*})))\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
+    __rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
     
     def __init__(self, responseObj):
         super(SharedVar, self).__init__(responseObj.name)
@@ -92,8 +92,18 @@ class SharedVar(Message):
         end = data.rfind('"')
         if start < 0 or end <= start:
             return None
+        
         data = data[start+1:end]
-        data = data.replace('\\', '')
+        
+        data = data.replace('\\\\"', '"')
+        data = data.replace("\\\\'", "'")
+        
+        data = data.replace('\\\\t', '\t')
+        data = data.replace('\\\\r', '\r')
+        data = data.replace('\\\\n', '\n')
+        
+        data = data.replace('\\\\', '\\')
+        
         return data
 
     @classmethod
@@ -103,8 +113,14 @@ class SharedVar(Message):
         
         data = data.strip()
         
-        data = data.replace('"', '\\"')
-        data = data.replace('\\', '\\\\\\')
+        data = data.replace('\\', '\\\\')
+        
+        data = data.replace('\n', '\\\\n')
+        data = data.replace('\r', '\\\\r')
+        data = data.replace('\t', '\\\\t')
+        
+        data = data.replace("'", "\\\\\\'")
+        data = data.replace('"', '\\\\\\"')
         
         return '\\"' + data + '\\"'
     
