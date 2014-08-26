@@ -19,6 +19,9 @@ __initialized = False
 __started = False
 __startedLock = threading.Lock()
 
+__ready = False
+__readyLock = threading.Lock()
+
 _subscriptionHandlersLock = threading.Lock()
 _subscriptionHandlers = {}
 
@@ -32,10 +35,10 @@ _sentCommands = set([])
 _commandsLock = threading.Lock()
 
 def Initialize(port, functionMap={}, asyncHandler = None):
-    global __executors, __connMan, __parser, __p, __initialized
+    global __executors, __connMan, __parser, __p, __initialized, __ready
     
     __executors = { 'busy' : (lambda x: Response('busy'), False),
-                      'ready' : (lambda x: Response('ready', True), False),
+                      'ready' : (__isReady, False),
                       'alive' : (lambda x: Response('alive', True), False) }
 
     for m in functionMap:
@@ -68,8 +71,23 @@ def Start():
     __startedLock.acquire()
     __started = True
     __startedLock.release()
+
+def SetReady(val):
+    global __ready, __readyLock
     
+    __readyLock.acquire()
+    __ready = val
+    __readyLock.release()
+
+def __isReady(c):
+    global __ready, __readyLock
     
+    __readyLock.acquire()
+    ready = __ready
+    __readyLock.release()
+    
+    return Response('ready', ready)
+
 def Wait():
     while True:
         time.sleep(300)

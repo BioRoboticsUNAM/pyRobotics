@@ -31,8 +31,8 @@ def readVar():
 def main():
     
     BB.Initialize(2002)
-    
     BB.Start()
+    BB.SetReady(True)
     
     s = ''
     while s != '4':

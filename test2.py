@@ -22,6 +22,7 @@ fmap = {
 def main():
     BB.Initialize(2001, fmap)
     BB.Start()
+    BB.SetReady(True)
     
     print 'Waiting for commands...'
     BB.Wait()

@@ -20,8 +20,8 @@ fmap = {
 
 def main():
     BB.Initialize(2000, fmap)
-    
     BB.Start()
+    BB.SetReady(True)
     
     print 'Sending command say...'
     print BB.SendAndWait(Command('spg_say', 'This is a test.'), 5000, 3)

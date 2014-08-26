@@ -10,8 +10,8 @@ def printingFunc(svar):
 
 def main():
     BB.Initialize(2003)
-    
     BB.Start()
+    BB.SetReady(True)
     
     BB.SubscribeToSharedVar('test_string', printingFunc)
     
