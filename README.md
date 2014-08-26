@@ -7,3 +7,6 @@ A Python API to create modules that connect to our BlackBoard (our "home-made" m
 These softwares are all part of the work developed at the Bio-Robotics Laboratory at UNAM, and are used in our service robots.
 
 There's currently no documentation (neither for the BlackBoard nor for pyRobotics) and it is still in beta testing, but if someone should be interested in knowing more about any of these projects, you can contact me at adrianrc[dot]89[at]gmail[dot]com.
+
+
+The files at the top level folder are examples, the actual library is in the pyRobotics folder.
