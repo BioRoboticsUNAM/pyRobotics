@@ -72,7 +72,7 @@ def Start():
     __started = True
     __startedLock.release()
 
-def SetReady(val):
+def SetReady(val=True):
     global __ready, __readyLock
     
     __readyLock.acquire()
