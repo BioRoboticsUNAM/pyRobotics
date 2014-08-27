@@ -95,6 +95,8 @@ class SharedVar(Message):
         
         data = data[start+1:end]
         
+        #Parsing as Response first, as its done by the SharedVariables parser, gets rid of one slash before a double quote.
+        #This is why deserializing has less slash than serializing. 
         data = data.replace('\\\\"', '"')
         data = data.replace("\\\\'", "'")
         
