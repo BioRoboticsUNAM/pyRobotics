@@ -111,7 +111,7 @@ class SharedVar(Message):
         if data is None:
             return 'null'
         
-        data = data.strip()
+        #data = data.strip()
         
         data = data.replace('\\', '\\\\')
         
