@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3.1. BB module &mdash; pyRobotics 1.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pyRobotics 1.5 documentation" href="index.html" />
+    <link rel="up" title="3. pyRobotics API" href="pyRoboticsAPI.html" />
+    <link rel="next" title="3.2. Messages, Commands and Responses" href="Messages.html" />
+    <link rel="prev" title="3. pyRobotics API" href="pyRoboticsAPI.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Messages.html" title="3.2. Messages, Commands and Responses"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pyRoboticsAPI.html" title="3. pyRobotics API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pyRobotics 1.5 documentation</a> &raquo;</li>
+          <li><a href="pyRoboticsAPI.html" accesskey="U">3. pyRobotics API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pyRobotics.BB">
+<span id="bb-module"></span><h1>3.1. BB module<a class="headerlink" href="#module-pyRobotics.BB" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the main interface to interact with BlackBoard.</p>
+<p>Author: Adrián Revuelta Cuauhtli &lt;<a class="reference external" href="mailto:adrianrc&#46;89&#37;&#52;&#48;gmail&#46;com">adrianrc<span>&#46;</span>89<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
+<p>Workplace: Bio-Robotics Lab., UNAM &lt;<a class="reference external" href="http://bio-robotics.fi-p-unam.mx">http://bio-robotics.fi-p-unam.mx</a>&gt;</p>
+<div class="section" id="bb-functions">
+<h2>3.1.1. BB functions<a class="headerlink" href="#bb-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyRobotics.BB.Initialize">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Initialize</tt><big>(</big><em>port</em>, <em>functionMap={}</em>, <em>asyncHandler=None</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.Initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes BlackBoard with the corresponding parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>port</strong> (<em>int</em>) &#8211; The port through which BlackBoard will communicate with this module.</li>
+<li><strong>functionMap</strong> (<em>dictionary</em>) &#8211; <p>A dictionary containing <strong>key:value</strong> pairs, where the <em>key</em> is the name of a command received (a string),
+and the <em>value</em> is either a tuple containing a function as a first element and a boolean as a second element, or a function.
+The function in both cases is the function that is going to execute the specified command and receives on object of type <tt class="xref py py-class docutils literal"><span class="pre">Command</span></tt> (See <a class="reference internal" href="gettingStarted.html#creating-a-command-handler"><em>Creating a command handler</em></a>).
+The boolean value indicates whether the execution of that command should be synchronous (on the same thread) or asynchronous,
+usually synchronous execution is preferred for fast commands that can answer almost immediately and asynchronous for commands that might take a little time.
+When the value is only a function, by default the execution is synchronous. <em>functionMap</em> can also contain an entry with a string containing only an asterisk,
+meaning that would be the handler in case no other handler is found for a specific command.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Notice that although functionMap can include a wildcard handler and this might seem like the module could answer
+anything, BlackBoard will only send commands that are registered under this module&#8217;s configuration.</p>
+</div>
+</li>
+<li><strong>asyncHandler</strong> (<em>function</em>) &#8211; <p>A function that would handle the response of commands when sent with the method <a class="reference internal" href="#pyRobotics.BB.Send" title="pyRobotics.BB.Send"><tt class="xref py py-func docutils literal"><span class="pre">Send()</span></tt></a>
+instead of using <a class="reference internal" href="#pyRobotics.BB.SendAndWait" title="pyRobotics.BB.SendAndWait"><tt class="xref py py-func docutils literal"><span class="pre">SendAndWait()</span></tt></a>. This means the execution of a program that sends a command could continue
+and an asynchronous handler would handle the response when one is received.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Notice that the asyncHandler functionality could also be achieved using a <tt class="xref py py-class docutils literal"><span class="pre">ParallelSender</span></tt> object,
+but it has other implications.</p>
+</div>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.Start">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Start</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.BB.Start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once pyRobotics is <a class="reference internal" href="#pyRobotics.BB.Initialize" title="pyRobotics.BB.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">initialized</span></tt></a>, you can start the communication with BlackBoard.
+This will start the threads of the internal <em>ConnectionManager</em> and <em>CommandParser</em> classes to start listening for
+a connection and start receiving and parsin messages.</p>
+<p>If pyRobotics is not initialized it will only print a message saying &#8220;pyRobotics needs to be initialized before starting&#8221;.
+A similar message will show when trying to use some of this module&#8217;s functions before calling this function.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.SetReady">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">SetReady</tt><big>(</big><em>val=True</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.SetReady" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once pyRobotics is <a class="reference internal" href="#pyRobotics.BB.Initialize" title="pyRobotics.BB.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">initialized</span></tt></a> and <a class="reference internal" href="#pyRobotics.BB.Start" title="pyRobotics.BB.Start"><tt class="xref py py-func docutils literal"><span class="pre">started</span></tt></a>, this flag should be set to true to
+let BlackBoard know that the module is functioning correctly and ready to receive commands.
+Even if this module does not receive any commands, this should be set to true.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.Wait">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Wait</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.BB.Wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>In case this module is only used to receive and respond commands, but is doing nothing while no command is received,
+this will prevent the main thread (and therefore BlackBoard connection and commands execution) to terminate.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.Send">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Send</tt><big>(</big><em>message</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.Send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a command WITHOUT waiting for an answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<em>Command</em>) &#8211; Message to be sent, must be an instance of the Command class.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><tt class="docutils literal"><span class="pre">True</span></tt> if the message was sent successfully, <tt class="docutils literal"><span class="pre">False</span></tt> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.SendAndWait">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">SendAndWait</tt><big>(</big><em>command</em>, <em>timeout=300000</em>, <em>attempts=1</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.SendAndWait" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.ReadSharedVar">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">ReadSharedVar</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.ReadSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the value of a Shared Variable from the BlackBoard.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>string</em>) &#8211; The name of the Shared Variable.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <tt class="xref py py-class docutils literal"><span class="pre">SharedVar</span></tt> object if the request was successful, <tt class="docutils literal"><span class="pre">False</span></tt> if pyRobotics has not been started, <tt class="docutils literal"><span class="pre">None</span></tt> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.CreateSharedVar">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">CreateSharedVar</tt><big>(</big><em>sharedVarType</em>, <em>name</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.CreateSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a Shared Variable in BlackBoard.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sharedVarType</strong> (<em>enum</em>) &#8211; The type of the shared variable, it is one of the constants in <tt class="xref py py-class docutils literal"><span class="pre">SharedVarTypes</span></tt> pseudo-enum.</li>
+<li><strong>name</strong> (<em>string</em>) &#8211; The name of the shared variable to be created.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><tt class="docutils literal"><span class="pre">True</span></tt> if creation was successful, <tt class="docutils literal"><span class="pre">False</span></tt> otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.WriteSharedVar">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">WriteSharedVar</tt><big>(</big><em>sharedVarType</em>, <em>name</em>, <em>data</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.WriteSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes content to a Shared Variable in BlackBoard.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sharedVarType</strong> (<em>enum</em>) &#8211; The type of the shared variable, it is one of the constants in <tt class="xref py py-class docutils literal"><span class="pre">SharedVarTypes</span></tt> pseudo-enum.</li>
+<li><strong>name</strong> (<em>string</em>) &#8211; The name of the shared variable to write to.</li>
+<li><strong>data</strong> (<em>var</em>) &#8211; The data to be written, the type must match the shared variable&#8217;s type.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><tt class="docutils literal"><span class="pre">True</span></tt> if shared variable was succesfully written to, <tt class="docutils literal"><span class="pre">False</span></tt> otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyRobotics.BB.SubscribeToSharedVar">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">SubscribeToSharedVar</tt><big>(</big><em>name</em>, <em>handler</em>, <em>subscriptionType='writeothers'</em>, <em>reportType='content'</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.SubscribeToSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subscribes to a Shared Variable in BlackBoard.
+When a module subscribes to a shared variable, it gets notifications when someone writes to it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string</em>) &#8211; The name of the shared variable to subscribe to.</li>
+<li><strong>handler</strong> (<em>function</em>) &#8211; A function that will be the handler for this shared variables notification. (See <a class="reference internal" href="gettingStarted.html#creating-a-subscription-handler"><em>Creating a subscription handler</em></a>)</li>
+<li><strong>subscriptionType</strong> (<em>enum</em>) &#8211; The type of subscription, it is one of the constants in <tt class="xref py py-class docutils literal"><span class="pre">SubscriptionTypes</span></tt> pseudo-enum.</li>
+<li><strong>reportType</strong> (<em>enum</em>) &#8211; The type of report to receive when someone writes to it, it is one of the constants in <tt class="xref py py-class docutils literal"><span class="pre">ReportTypes</span></tt> pseudo-enum.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><tt class="docutils literal"><span class="pre">True</span></tt> if subscription was successful, <tt class="docutils literal"><span class="pre">False</span></tt> otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3.1. BB module</a><ul>
+<li><a class="reference internal" href="#bb-functions">3.1.1. BB functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pyRoboticsAPI.html"
+                        title="previous chapter">3. pyRobotics API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="Messages.html"
+                        title="next chapter">3.2. Messages, Commands and Responses</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/BBmodule.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="Messages.html" title="3.2. Messages, Commands and Responses"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pyRoboticsAPI.html" title="3. pyRobotics API"
+             >previous</a> |</li>
+        <li><a href="index.html">pyRobotics 1.5 documentation</a> &raquo;</li>
+          <li><a href="pyRoboticsAPI.html" >3. pyRobotics API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Adrián Revuelta Cuauhtli.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
