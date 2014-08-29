@@ -6,10 +6,10 @@
 Overview of BlackBoard
 -------------------------
 
-BlackBoard is our "home-made" message-passing and shared variables hub... somewhat equivalent to `ROS <http://www.ros.org>`.
+BlackBoard is our "home-made" message-passing and shared variables hub... somewhat equivalent to `ROS <http://www.ros.org>`_.
 .. note::
 
-  Note this is different from the traditionally understood concept of a `blackboard <http://en.wikipedia.org/wiki/Blackboard_system>`.
+  Note this is different from the traditionally understood concept of a `blackboard <http://en.wikipedia.org/wiki/Blackboard_system>`_.
 
 It is a message forwarding module that enables communication between different programs through the Resquest-Response schema as Remote Procedure Calls.
 It is also a repository of shared variables that can be read and written by any module (program) connected to it.
