@@ -7,6 +7,8 @@ from pyRobotics import BB
 from pyRobotics.ParallelSenders import ParallelSender
 from pyRobotics.Messages import Command, Response
 
+# These command handler functions could (and probably should) be defined in another module
+# as to keep the main program file simple and clean.
 def testFunction(c):
     print "testFunction called..."
     print 'Params: ' + c.params
@@ -33,7 +35,7 @@ def main():
         print 'sending...'
         time.sleep(0.3)
   
-    'Response received...'
+    print 'Response received...'
     print ps.response
     
     BB.Wait()

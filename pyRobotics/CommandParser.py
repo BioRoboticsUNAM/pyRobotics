@@ -1,7 +1,3 @@
-'''
-@author: arcra
-'''
-
 import threading, BB
 from Messages import Command, Response
 from SharedVariables import SharedVar

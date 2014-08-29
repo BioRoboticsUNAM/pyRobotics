@@ -1,12 +1,90 @@
-'''
-@author: arcra
-'''
 import re
 import BB
 from Messages import Message, MessageTypes, Command, Response
 
-class SharedVar(Message):
+class SharedVarTypes(object):
+    '''
+    Pseudo-enum of the types of shared variables.
     
+    The existing values are:
+    
+        * SharedVarTypes.BYTE_ARRAY
+        * SharedVarTypes.INT
+        * SharedVarTypes.INT_ARRAY
+        * SharedVarTypes.LONG
+        * SharedVarTypes.LONG_ARRAY
+        * SharedVarTypes.DOUBLE
+        * SharedVarTypes.DOUBLE_ARRAY
+        * SharedVarTypes.STRING
+        * SharedVarTypes.MATRIX
+        * SharedVarTypes.RECOGNIZED_SPEECH
+        * SharedVarTypes.VAR
+    
+    The type VAR can be considered as an "unknown" type. It doesn't do any special serialization or deserialization processing,
+    instead it sends the string the user inputs as parameters directly. 
+    '''
+    
+    BYTE_ARRAY = 'byte[]'
+    INT = 'int'
+    INT_ARRAY = 'int[]'
+    LONG = 'long'
+    LONG_ARRAY = 'long[]'
+    DOUBLE = 'double'
+    DOUBLE_ARRAY = 'double[]'
+    STRING = 'string'
+    MATRIX = 'matrix'
+    RECOGNIZED_SPEECH = 'RecognizedSpeech'
+    VAR = 'var'
+
+class SubscriptionTypes(object):
+    '''
+    Pseudo-enum of the types of subscriptions. (See :meth:`SubscribeToSharedVar <pyRobotics.BB.SubscribeToSharedVar>`)
+    
+    The existing values are:
+    
+        * SubscriptionTypes.CREATION
+        * SubscriptionTypes.WRITE_MODULE
+        * SubscriptionTypes.WRITE_OTHERS
+        * SubscriptionTypes.WRITE_ANY
+        
+    '''
+    
+    CREATION = 'creation'
+    WRITE_MODULE = 'writemodule'
+    WRITE_OTHERS = 'writeothers'
+    WRITE_ANY = 'writeany'
+    
+class ReportTypes(object):
+    '''
+    Pseudo-enum of the types of reports. (See :meth:`SubscribeToSharedVar <pyRobotics.BB.SubscribeToSharedVar>`)
+    
+    The existing values are:
+    
+        * ReportTypes.CONTENT
+        * ReportTypes.NOTIFY
+    '''
+    CONTENT = 'content'
+    NOTIFY = 'notify'
+
+class SharedVar(Message):
+    '''
+    A wrapper for the shared variable notifications.
+    
+    An object of this type is passed as parameter to every subscription handler function. (See :meth:`SubscribeToSharedVar <pyRobotics.BB.SubscribeToSharedVar>`)
+    
+    Objects of this class include the members:
+    
+    sv.varName
+        The name of the shared variable of which a notification was received.
+    sv.svType
+        One of the class variables in the pseudo-enum :class:`SharedVarTypes`.
+    sv.size
+        -1 if it is not an array type, an integer if sv.svType is of type SharedVariableTypes.BYTE_ARRAY,
+        SharedVariableTypes.INT_ARRAY, SharedVariableTypes.LONG_ARRAY or SharedVariableTypes.DOUBLE_ARRAY.
+    sv.data
+        Contains the deserialized data of this shared variable, depending on its type.
+    
+    '''
     __rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
     
     def __init__(self, responseObj):
@@ -208,32 +286,6 @@ class SharedVar(Message):
             l.append((currentText, currentConfidence))
         
         return l
-
-class SharedVarTypes(object):
-    
-    BYTE_ARRAY = 'byte[]'
-    INT = 'int'
-    INT_ARRAY = 'int[]'
-    LONG = 'long'
-    LONG_ARRAY = 'long[]'
-    DOUBLE = 'double'
-    DOUBLE_ARRAY = 'double[]'
-    STRING = 'string'
-    MATRIX = 'matrix'
-    RECOGNIZED_SPEECH = 'RecognizedSpeech'
-    VAR = 'var'
-
-class SubscriptionTypes(object):
-    
-    CREATION = 'creation'
-    WRITE_MODULE = 'writemodule'
-    WRITE_OTHERS = 'writeothers'
-    WRITE_ANY = 'writeany'
-    
-class ReportTypes(object):
-    
-    CONTENT = 'content'
-    NOTIFY = 'notify'
 
 def _CreateSharedVar(svType, name):
     r = BB.SendAndWait(Command('create_var', svType + ' ' + name) , 2000, 2)

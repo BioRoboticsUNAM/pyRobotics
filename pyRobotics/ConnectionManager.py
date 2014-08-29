@@ -1,7 +1,3 @@
-'''
-@author: arcra
-'''
-
 import socket, threading
 import BB
 
