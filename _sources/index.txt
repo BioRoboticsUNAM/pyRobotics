@@ -18,6 +18,12 @@ Contents:
    Getting Started <gettingStarted>
    pyRobotics API <pyRoboticsAPI>
 
+.. _source_code:
+
+Source Code
+=============
+Source code and examples can be found at the github repository: `<http://github.com/BioRoboticsUNAM/pyRobotics>`_.
+
 
 Indices and tables
 ==================
