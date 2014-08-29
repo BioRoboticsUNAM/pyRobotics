@@ -63,12 +63,20 @@
 <p class="first admonition-title">Note</p>
 <p class="last">Note this is different from the traditionally understood concept of a <a class="reference external" href="http://en.wikipedia.org/wiki/Blackboard_system">blackboard</a>.</p>
 </div>
-<p>It is a message forwarding module that enables communication between different programs through the Resquest-Response schema as Remote Procedure Calls.
+<p>It is a message forwarding module that enables communication between different programs through the Resquest-Response schema
+as Remote Procedure Calls.
 It is also a repository of shared variables that can be read and written by any module (program) connected to it.</p>
 <p>We use this for our service robots at the Bio-Robotics laboratory, at UNAM, Mexico.</p>
-<p>The way it works is: a configuration file is read by BlackBoard to know to which modules it should connect,
-how to connect to them (e. g. ip address and port), as well as a list of commands those modules can handle.</p>
+<p>The way it works is:</p>
+<blockquote>
+<div><p>With the robotics API, a module is created that would function as a server in a client-server architecture.</p>
+<p>A configuration file is read by BlackBoard to know to which modules it should connect,
+and how to connect to them (e. g. ip address and port), as well as a list of commands those modules can handle.</p>
+</div></blockquote>
 <p>This way, we can have separate programs for our vision system, navigation system, action planner, etc.</p>
+<p>It is written in C#, although with the use of <cite>mono &lt;http://www.mono-project.com/&gt;</cite> it runs in linux too! (tested on ubuntu)
+Even better, you could have computers with different operating systems and have your modules distributed, making the best of
+both worlds!</p>
 <p>We currently have APIs to easily build modules with C#, C++ and python. This documents refer to the python API.</p>
 </div>
 <div class="section" id="overview-of-pyrobotics">

@@ -70,12 +70,90 @@ is located in.</p>
 </div>
 <div class="section" id="creating-a-command-handler">
 <span id="id1"></span><h2>2.2. Creating a Command Handler<a class="headerlink" href="#creating-a-command-handler" title="Permalink to this headline">¶</a></h2>
+<p>A command handler is a function that receives a <a class="reference internal" href="Messages.html#pyRobotics.Messages.Command" title="pyRobotics.Messages.Command"><tt class="xref py py-class docutils literal"><span class="pre">Command</span></tt></a> object and returns a
+<a class="reference internal" href="Messages.html#pyRobotics.Messages.Response" title="pyRobotics.Messages.Response"><tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt></a> object.</p>
+<p>The Response object should be created by the class function <a class="reference internal" href="Messages.html#pyRobotics.Messages.Response.FromCommandObject" title="pyRobotics.Messages.Response.FromCommandObject"><tt class="xref py py-func docutils literal"><span class="pre">Response.FromCommandObject()</span></tt></a>. This is important
+because every command has an internal id to keep track of commands and responses, and this functions creates the approppriate
+response.</p>
+<p>Here you can see an example of a command handler:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myCommandHandler</span><span class="p">(</span><span class="n">commandObj</span><span class="p">):</span>
+  <span class="n">params</span> <span class="o">=</span> <span class="n">parseCommandParams</span><span class="p">(</span><span class="n">commandObj</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">executeCommand</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="n">FromCommandObject</span><span class="p">(</span><span class="n">commandObj</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&quot;answer successful&quot;</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="n">FromCommandObject</span><span class="p">(</span><span class="n">commandObj</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;answer UNsuccessful&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that the last parameter is meant to be the actual return value of the command, in case the command should answer
+something, such as a list of recognized objects, the name of a recognized face, etc.
+If the command is not supposed to answer anything but whether it was successful or not, it doesn&#8217;t matter what this
+parameter has, it can be an empty string or they keyword <tt class="docutils literal"><span class="pre">None</span></tt>, in which case the response will be sent with the original
+parameters.</p>
 </div>
 <div class="section" id="creating-a-subscription-handler">
 <span id="id2"></span><h2>2.3. Creating a Subscription Handler<a class="headerlink" href="#creating-a-subscription-handler" title="Permalink to this headline">¶</a></h2>
+<p>A subscription hanlder is a function that will execute whenever a notification of an updated shared variable is received.
+(Whenever somebody writes to it). It receives a <tt class="xref py py-class docutils literal"><span class="pre">SharedVar</span></tt> object and should not return anything.</p>
+<p>Since the function receives the SharedVar object, it has the information of what type of shared var it is, and its data, so
+there could be one subscription handler for more than one shared variable (or all) and the handler should then decide
+what to do with them.</p>
+<p>Here&#8217;s an example of a simple subscription handler that prints the info of the shared variable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">mySubscriptionHandler</span><span class="p">(</span><span class="n">sv</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&#39;----------------------------&#39;</span>
+  <span class="k">print</span> <span class="s">&#39;Shared Variable updated:&#39;</span>
+  <span class="k">print</span> <span class="n">sv</span><span class="o">.</span><span class="n">varName</span>
+  <span class="k">print</span> <span class="n">sv</span><span class="o">.</span><span class="n">svType</span>
+  <span class="k">if</span> <span class="n">sv</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">sv</span><span class="o">.</span><span class="n">size</span>
+  <span class="k">print</span> <span class="n">sv</span><span class="o">.</span><span class="n">data</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="creating-a-simple-module">
 <span id="id3"></span><h2>2.4. Creating a Simple Module<a class="headerlink" href="#creating-a-simple-module" title="Permalink to this headline">¶</a></h2>
+<p>This is an example included with the <a class="reference internal" href="index.html#source-code"><em>source code</em></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">pyRobotics</span> <span class="kn">import</span> <span class="n">BB</span>
+<span class="kn">from</span> <span class="nn">pyRobotics.ParallelSenders</span> <span class="kn">import</span> <span class="n">ParallelSender</span>
+<span class="kn">from</span> <span class="nn">pyRobotics.Messages</span> <span class="kn">import</span> <span class="n">Command</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="c"># These command handler functions could (and probably should) be defined in another module</span>
+<span class="c"># as to keep the main program file simple and clean.</span>
+<span class="k">def</span> <span class="nf">testFunction</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+  <span class="k">print</span> <span class="s">&quot;testFunction called...&quot;</span>
+  <span class="k">print</span> <span class="s">&#39;Params: &#39;</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="n">params</span>
+  <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="n">FromCommandObject</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;Command response&#39;</span><span class="p">)</span>
+
+<span class="n">fmap</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s">&#39;tst_testfunction&#39;</span> <span class="p">:</span> <span class="n">testFunction</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+  <span class="n">BB</span><span class="o">.</span><span class="n">Initialize</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">fmap</span><span class="p">)</span>
+  <span class="n">BB</span><span class="o">.</span><span class="n">Start</span><span class="p">()</span>
+  <span class="n">BB</span><span class="o">.</span><span class="n">SetReady</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+  <span class="k">print</span> <span class="s">&#39;Sending command say...&#39;</span>
+  <span class="k">print</span> <span class="n">BB</span><span class="o">.</span><span class="n">SendAndWait</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s">&#39;spg_say&#39;</span><span class="p">,</span> <span class="s">&#39;This is a test.&#39;</span><span class="p">),</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+  <span class="k">print</span> <span class="s">&#39;Sending Async command...&#39;</span>
+  <span class="n">ps</span> <span class="o">=</span> <span class="n">ParallelSender</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s">&#39;othertst_slowfunction&#39;</span><span class="p">,</span> <span class="s">&#39;This is another test.&#39;</span><span class="p">),</span> <span class="mi">5000</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+  <span class="k">while</span> <span class="n">ps</span><span class="o">.</span><span class="n">sending</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&#39;sending...&#39;</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+
+  <span class="k">print</span> <span class="s">&#39;Response received...&#39;</span>
+  <span class="k">print</span> <span class="n">ps</span><span class="o">.</span><span class="n">response</span>
+
+  <span class="n">BB</span><span class="o">.</span><span class="n">Wait</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+  <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
 </div>
 </div>
 
