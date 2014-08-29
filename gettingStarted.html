@@ -56,14 +56,26 @@
             
   <div class="section" id="getting-started">
 <h1>2. Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-pyrobotics-into-the-python-path">
+<h2>2.1. Getting pyRobotics into the PYTHON_PATH<a class="headerlink" href="#getting-pyrobotics-into-the-python-path" title="Permalink to this headline">¶</a></h2>
+<p>In order to use pyRobotics (or any other package) you need to have a copy of that package
+in any of the folders included in the python path.</p>
+<p>To know which folders are in the <tt class="docutils literal"><span class="pre">PYTHON_PATH</span></tt>, open an interactive console and type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">path</span>
+</pre></div>
+</div>
+<p>Alternatively, you can modify your python configuration to include in the <tt class="docutils literal"><span class="pre">PYTHON_PATH</span></tt> whichever folder <tt class="docutils literal"><span class="pre">pyRobotics</span></tt>
+is located in.</p>
+</div>
 <div class="section" id="creating-a-command-handler">
-<span id="id1"></span><h2>2.1. Creating a Command Handler<a class="headerlink" href="#creating-a-command-handler" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>2.2. Creating a Command Handler<a class="headerlink" href="#creating-a-command-handler" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="creating-a-subscription-handler">
-<span id="id2"></span><h2>2.2. Creating a Subscription Handler<a class="headerlink" href="#creating-a-subscription-handler" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>2.3. Creating a Subscription Handler<a class="headerlink" href="#creating-a-subscription-handler" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="creating-a-simple-module">
-<span id="id3"></span><h2>2.3. Creating a Simple Module<a class="headerlink" href="#creating-a-simple-module" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2>2.4. Creating a Simple Module<a class="headerlink" href="#creating-a-simple-module" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -76,9 +88,10 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">2. Getting Started</a><ul>
-<li><a class="reference internal" href="#creating-a-command-handler">2.1. Creating a Command Handler</a></li>
-<li><a class="reference internal" href="#creating-a-subscription-handler">2.2. Creating a Subscription Handler</a></li>
-<li><a class="reference internal" href="#creating-a-simple-module">2.3. Creating a Simple Module</a></li>
+<li><a class="reference internal" href="#getting-pyrobotics-into-the-python-path">2.1. Getting pyRobotics into the PYTHON_PATH</a></li>
+<li><a class="reference internal" href="#creating-a-command-handler">2.2. Creating a Command Handler</a></li>
+<li><a class="reference internal" href="#creating-a-subscription-handler">2.3. Creating a Subscription Handler</a></li>
+<li><a class="reference internal" href="#creating-a-simple-module">2.4. Creating a Simple Module</a></li>
 </ul>
 </li>
 </ul>

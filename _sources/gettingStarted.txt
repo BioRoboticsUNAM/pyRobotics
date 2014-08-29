@@ -2,6 +2,20 @@
   Getting Started
 ===================
 
+Getting pyRobotics into the PYTHON_PATH
+---------------------------------------
+
+In order to use pyRobotics (or any other package) you need to have a copy of that package
+in any of the folders included in the python path.
+
+To know which folders are in the ``PYTHON_PATH``, open an interactive console and type:
+
+  >>> import sys
+  >>> sys.path
+
+Alternatively, you can modify your python configuration to include in the ``PYTHON_PATH`` whichever folder ``pyRobotics``
+is located in.
+
 .. _creating_a_command_handler:
 
 Creating a Command Handler

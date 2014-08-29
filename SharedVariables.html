@@ -27,6 +27,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="pyRobotics 1.5 documentation" href="index.html" />
     <link rel="up" title="3. pyRobotics API" href="pyRoboticsAPI.html" />
+    <link rel="next" title="3.4. Parallel (or asynchronous) Sender" href="ParallelSender.html" />
     <link rel="prev" title="3.2. Messages, Commands and Responses" href="Messages.html" /> 
   </head>
   <body>
@@ -39,6 +40,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="ParallelSender.html" title="3.4. Parallel (or asynchronous) Sender"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Messages.html" title="3.2. Messages, Commands and Responses"
              accesskey="P">previous</a> |</li>
@@ -54,6 +58,110 @@
             
   <div class="section" id="shared-variables">
 <h1>3.3. Shared Variables<a class="headerlink" href="#shared-variables" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pseudo-enums">
+<h2>3.3.1. Pseudo-enums<a class="headerlink" href="#pseudo-enums" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyRobotics.SharedVariables.SharedVarTypes">
+<em class="property">class </em><tt class="descclassname">pyRobotics.SharedVariables.</tt><tt class="descname">SharedVarTypes</tt><a class="headerlink" href="#pyRobotics.SharedVariables.SharedVarTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pseudo-enum of the types of shared variables.</p>
+<p>The existing values are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>SharedVarTypes.BYTE_ARRAY</li>
+<li>SharedVarTypes.INT</li>
+<li>SharedVarTypes.INT_ARRAY</li>
+<li>SharedVarTypes.LONG</li>
+<li>SharedVarTypes.LONG_ARRAY</li>
+<li>SharedVarTypes.DOUBLE</li>
+<li>SharedVarTypes.DOUBLE_ARRAY</li>
+<li>SharedVarTypes.STRING</li>
+<li>SharedVarTypes.MATRIX</li>
+<li>SharedVarTypes.RECOGNIZED_SPEECH</li>
+<li>SharedVarTypes.VAR</li>
+</ul>
+</div></blockquote>
+<p>The type VAR can be considered as an &#8220;unknown&#8221; type. It doesn&#8217;t do any special serialization or deserialization processing,
+instead it sends the string the user inputs as parameters directly.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyRobotics.SharedVariables.SubscriptionTypes">
+<em class="property">class </em><tt class="descclassname">pyRobotics.SharedVariables.</tt><tt class="descname">SubscriptionTypes</tt><a class="headerlink" href="#pyRobotics.SharedVariables.SubscriptionTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pseudo-enum of the types of subscriptions. (See <a class="reference internal" href="BBmodule.html#pyRobotics.BB.SubscribeToSharedVar" title="pyRobotics.BB.SubscribeToSharedVar"><tt class="xref py py-meth docutils literal"><span class="pre">SubscribeToSharedVar</span></tt></a>)</p>
+<p>The existing values are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>SubscriptionTypes.CREATION</li>
+<li>SubscriptionTypes.WRITE_MODULE</li>
+<li>SubscriptionTypes.WRITE_OTHERS</li>
+<li>SubscriptionTypes.WRITE_ANY</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="class">
+<dt id="pyRobotics.SharedVariables.ReportTypes">
+<em class="property">class </em><tt class="descclassname">pyRobotics.SharedVariables.</tt><tt class="descname">ReportTypes</tt><a class="headerlink" href="#pyRobotics.SharedVariables.ReportTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pseudo-enum of the types of reports. (See <a class="reference internal" href="BBmodule.html#pyRobotics.BB.SubscribeToSharedVar" title="pyRobotics.BB.SubscribeToSharedVar"><tt class="xref py py-meth docutils literal"><span class="pre">SubscribeToSharedVar</span></tt></a>)</p>
+<p>The existing values are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ReportTypes.CONTENT</li>
+<li>ReportTypes.NOTIFY</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="sharedvar-objects">
+<h2>3.3.2. SharedVar Objects<a class="headerlink" href="#sharedvar-objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyRobotics.SharedVariables.SharedVar">
+<em class="property">class </em><tt class="descclassname">pyRobotics.SharedVariables.</tt><tt class="descname">SharedVar</tt><big>(</big><em>responseObj</em><big>)</big><a class="headerlink" href="#pyRobotics.SharedVariables.SharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for the shared variable notifications.</p>
+<p>An object of this type is passed as parameter to every subscription handler function. (See <a class="reference internal" href="BBmodule.html#pyRobotics.BB.SubscribeToSharedVar" title="pyRobotics.BB.SubscribeToSharedVar"><tt class="xref py py-meth docutils literal"><span class="pre">SubscribeToSharedVar</span></tt></a>)</p>
+<p>Objects of this class include the members:</p>
+<dl class="docutils">
+<dt>sv.varName</dt>
+<dd>The name of the shared variable of which a notification was received.</dd>
+<dt>sv.svType</dt>
+<dd>One of the class variables in the pseudo-enum <a class="reference internal" href="#pyRobotics.SharedVariables.SharedVarTypes" title="pyRobotics.SharedVariables.SharedVarTypes"><tt class="xref py py-class docutils literal"><span class="pre">SharedVarTypes</span></tt></a>.</dd>
+<dt>sv.size</dt>
+<dd>-1 if it is not an array type, an integer if sv.svType is of type SharedVariableTypes.BYTE_ARRAY,
+SharedVariableTypes.INT_ARRAY, SharedVariableTypes.LONG_ARRAY or SharedVariableTypes.DOUBLE_ARRAY.</dd>
+<dt>sv.data</dt>
+<dd>Contains the deserialized data of this shared variable, depending on its type.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="using-shared-variables">
+<h2>3.3.3. Using Shared Variables<a class="headerlink" href="#using-shared-variables" title="Permalink to this headline">¶</a></h2>
+<dl class="method">
+<dt id="pyRobotics.SharedVariables.pyRobotics.BB.ReadSharedVar">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">ReadSharedVar</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.SharedVariables.pyRobotics.BB.ReadSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>(See <a class="reference internal" href="BBmodule.html#pyRobotics.BB.ReadSharedVar" title="pyRobotics.BB.ReadSharedVar"><tt class="xref py py-meth docutils literal"><span class="pre">ReadSharedVar</span></tt></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyRobotics.SharedVariables.pyRobotics.BB.CreateSharedVar">
+<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">CreateSharedVar</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.SharedVariables.pyRobotics.BB.CreateSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>(See <a class="reference internal" href="BBmodule.html#pyRobotics.BB.CreateSharedVar" title="pyRobotics.BB.CreateSharedVar"><tt class="xref py py-meth docutils literal"><span class="pre">CreateSharedVar</span></tt></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyRobotics.SharedVariables.pyRobotics.WriteToSharedVar">
+<tt class="descclassname">pyRobotics.</tt><tt class="descname">WriteToSharedVar</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.SharedVariables.pyRobotics.WriteToSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>(See <tt class="xref py py-meth docutils literal"><span class="pre">WriteToSharedVar</span></tt>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyRobotics.SharedVariables.pyRobotics.SubscribeToSharedVar">
+<tt class="descclassname">pyRobotics.</tt><tt class="descname">SubscribeToSharedVar</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.SharedVariables.pyRobotics.SubscribeToSharedVar" title="Permalink to this definition">¶</a></dt>
+<dd><p>(See <a class="reference internal" href="BBmodule.html#pyRobotics.BB.SubscribeToSharedVar" title="pyRobotics.BB.SubscribeToSharedVar"><tt class="xref py py-meth docutils literal"><span class="pre">SubscribeToSharedVar</span></tt></a>)</p>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -62,9 +170,22 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3.3. Shared Variables</a><ul>
+<li><a class="reference internal" href="#pseudo-enums">3.3.1. Pseudo-enums</a></li>
+<li><a class="reference internal" href="#sharedvar-objects">3.3.2. SharedVar Objects</a></li>
+<li><a class="reference internal" href="#using-shared-variables">3.3.3. Using Shared Variables</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="Messages.html"
                         title="previous chapter">3.2. Messages, Commands and Responses</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ParallelSender.html"
+                        title="next chapter">3.4. Parallel (or asynchronous) Sender</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/SharedVariables.txt"
@@ -96,6 +217,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="ParallelSender.html" title="3.4. Parallel (or asynchronous) Sender"
+             >next</a> |</li>
         <li class="right" >
           <a href="Messages.html" title="3.2. Messages, Commands and Responses"
              >previous</a> |</li>
