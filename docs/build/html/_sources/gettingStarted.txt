@@ -5,8 +5,14 @@
 Getting pyRobotics into the PYTHON_PATH
 ---------------------------------------
 
-In order to use pyRobotics (or any other package) you need to have a copy of that package
-in any of the folders included in the python path.
+In order to use pyRobotics (or any other package) you need to have a copy of the package
+in any of the folders included in the python path. You can download the package from
+`here <http://github.com/BioRoboticsUNAM/pyRobotics>`_.
+
+.. note::
+
+  Note that the git repository includes some examples, as well as the library, the package is the FOLDER named pyRobotics
+  within the repository.
 
 To know which folders are in the ``PYTHON_PATH``, open an interactive console and type:
 

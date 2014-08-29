@@ -14,3 +14,7 @@ If someone should be interested in knowing more about any of these projects, you
 ### IMPORTANT NOTE
 
 The files at the top level folder are examples, the actual library is in the pyRobotics folder.
+
+LICENSE
+----------
+This software is distributed under the MIT License.
