@@ -7,6 +7,7 @@ Overview of BlackBoard
 -------------------------
 
 BlackBoard is our "home-made" message-passing and shared variables hub... somewhat equivalent to `ROS <http://www.ros.org>`_.
+
 .. note::
 
   Note this is different from the traditionally understood concept of a `blackboard <http://en.wikipedia.org/wiki/Blackboard_system>`_.
