@@ -28,8 +28,8 @@ The way it works is:
 This way, we can have separate programs for our vision system, navigation system, action planner, etc.
 
 It is written in C#, although with the use of `mono <http://www.mono-project.com/>`_ it runs in linux too! (tested on ubuntu)
-Even better, you could have computers with different operating systems and have your modules distributed, making the best of
-both worlds!
+Even better, you could have computers with different operating systems and have your modules distributed,
+making the best out of both worlds!
 
 We currently have APIs to easily build modules with C#, C++ and python. This documents refer to the python API.
 
