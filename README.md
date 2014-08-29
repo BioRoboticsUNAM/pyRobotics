@@ -8,7 +8,7 @@ These softwares are all part of the work developed at the Bio-Robotics Laborator
 
 ### Documentation
 
-The documentation for pyRobotics is [here](http://bioroboticsUNAM.guthub.io/pyRobotics). It is still in beta testing.
+The documentation for pyRobotics is [here](http://bioroboticsUNAM.github.io/pyRobotics). It is still in beta testing.
 If someone should be interested in knowing more about any of these projects, you can contact me at adrianrc[dot]89[at]gmail[dot]com.
 
 ### IMPORTANT NOTE
