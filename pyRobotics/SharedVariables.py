@@ -85,7 +85,7 @@ class SharedVar(Message):
         Contains the deserialized data of this shared variable, depending on its type.
     
     '''
-    __rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
+    __rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))?\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
     
     def __init__(self, responseObj):
         super(SharedVar, self).__init__(responseObj.name)
@@ -127,6 +127,9 @@ class SharedVar(Message):
     def __ProcessReadVar(cls, var):
     
         try:
+            if not var.data:
+                return None
+            
             if var.svType == SharedVarTypes.STRING:
                 return SharedVar.__DeserializeString(var.data)
             
@@ -163,7 +166,8 @@ class SharedVar(Message):
 
     @classmethod
     def __DeserializeString(cls, data):
-        if data == '' or data == 'null':
+        
+        if data == 'null':
             return None
         
         start = data.find('"')

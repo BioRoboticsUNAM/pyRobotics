@@ -14,7 +14,6 @@ def createVar():
 def writeVar():
     print 'What would you like to write?'
     s = raw_input(':')
-    #s = [2, 3, 6, 8]
     if BB.WriteSharedVar(SharedVarTypes.STRING, 'test_string', s):
         print 'Written to var: ' + str(s)
     else:

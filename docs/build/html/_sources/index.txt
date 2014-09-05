@@ -8,6 +8,9 @@
 Welcome to pyRobotics's documentation!
 ======================================
 
+A Python API to create modules that connect to our BlackBoard
+(our "home-made" message-passing and shared variables hub... somewhat equivalent to ROS)
+
 Contents:
 
 .. toctree::
