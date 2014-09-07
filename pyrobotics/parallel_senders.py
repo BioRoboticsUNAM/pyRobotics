@@ -1,4 +1,5 @@
-import threading, BB
+import threading
+import BB
 
 class ParallelSender(object):
     '''

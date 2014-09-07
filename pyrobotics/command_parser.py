@@ -1,6 +1,8 @@
-import threading, BB
-from Messages import Command, Response
-from SharedVariables import SharedVar
+import threading
+
+import BB
+from messages import Command, Response
+from shared_variables import SharedVar
 
 class CommandParser(object):
         

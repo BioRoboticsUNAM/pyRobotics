@@ -1,4 +1,6 @@
-import socket, threading
+import socket
+import threading
+
 import BB
 
 class ConnectionManager(object):

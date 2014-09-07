@@ -2,8 +2,8 @@
 @author: arcra
 '''
 
-from pyRobotics import BB
-from pyRobotics.SharedVariables import SharedVarTypes
+from pyrobotics import BB
+from pyrobotics.shared_variables import SharedVarTypes
 
 def createVar():
     if BB.CreateSharedVar(SharedVarTypes.STRING, 'test_string'):

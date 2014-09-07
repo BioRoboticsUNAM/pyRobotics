@@ -1,6 +1,7 @@
 import re
+
 import BB
-from Messages import Message, MessageTypes, Command, Response
+from messages import Message, MessageTypes, Command, Response
 
 class SharedVarTypes(object):
     '''

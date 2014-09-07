@@ -2,7 +2,7 @@
 @author: arcra
 '''
 
-from pyRobotics import BB
+from pyrobotics import BB
 
 def printingFunc(svar):
     

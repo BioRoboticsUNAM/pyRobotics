@@ -7,18 +7,23 @@ Author: Adrián Revuelta Cuauhtli <adrianrc.89@gmail.com>
 
 Workplace: Bio-Robotics Lab., UNAM <http://bio-robotics.fi-p-unam.mx>
 '''
+# STANDARD IMPORTS
+import threading
+import time
+import types
+import Queue
 
-import threading, time, types, Queue
-import SharedVariables, ParallelSenders
-from Messages import Message, Command, Response
-from ConnectionManager import ConnectionManager
-from CommandParser import CommandParser
+# PACKAGE IMPORTS
+import shared_variables, parallel_senders
+from messages import Message, Command, Response
+from connection_manager import ConnectionManager
+from command_parser import CommandParser
 
-ParallelSender = ParallelSenders.ParallelSender
+ParallelSender = parallel_senders.ParallelSender
 
-SharedVarTypes = SharedVariables.SharedVarTypes
-SubscriptionTypes = SharedVariables.SubscriptionTypes
-ReportTypes = SharedVariables.ReportTypes
+SharedVarTypes = shared_variables.SharedVarTypes
+SubscriptionTypes = shared_variables.SubscriptionTypes
+ReportTypes = shared_variables.ReportTypes
 
 __initialized = False
 
@@ -218,7 +223,7 @@ def Send(message):
         return False
     
     if not isinstance(message, Message):
-        print "Message to be sent should be a derived class of pyRobotics.Messages.Message Class. Message was not sent."
+        print "Message to be sent should be a derived class of pyrobotics.messages.Message Class. Message was not sent."
         return False
     
     for _ in range(3):
@@ -297,7 +302,7 @@ def ReadSharedVar(name):
         print 'pyRobotics has not been started.'
         return False
     
-    return SharedVariables._ReadSharedVar(name)
+    return shared_variables._ReadSharedVar(name)
 
 def CreateSharedVar(sharedVarType, name):
     '''
@@ -317,7 +322,7 @@ def CreateSharedVar(sharedVarType, name):
         print 'pyRobotics has not been started.'
         return False
     
-    return SharedVariables._CreateSharedVar(sharedVarType, name)
+    return shared_variables._CreateSharedVar(sharedVarType, name)
 
 def WriteSharedVar(sharedVarType, name, data):
     '''
@@ -338,7 +343,7 @@ def WriteSharedVar(sharedVarType, name, data):
         print 'pyRobotics has not been started.'
         return False
     
-    return SharedVariables._WriteSharedVar(sharedVarType, name, data)
+    return shared_variables._WriteSharedVar(sharedVarType, name, data)
 
 def SubscribeToSharedVar(name, handler, subscriptionType=SubscriptionTypes.WRITE_OTHERS, reportType = ReportTypes.CONTENT):
     '''
@@ -361,7 +366,7 @@ def SubscribeToSharedVar(name, handler, subscriptionType=SubscriptionTypes.WRITE
         print 'pyRobotics has not been started.'
         return False
     
-    if not SharedVariables._SubscribeToSharedVar(name, subscriptionType, reportType):
+    if not shared_variables._SubscribeToSharedVar(name, subscriptionType, reportType):
         return False
     
     _subscriptionHandlersLock.acquire()

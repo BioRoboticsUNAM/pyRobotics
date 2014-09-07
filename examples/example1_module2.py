@@ -3,8 +3,8 @@
 '''
 
 import time
-from pyRobotics import BB
-from pyRobotics.Messages import Command, Response
+from pyrobotics import BB
+from pyrobotics.messages import Command, Response
 
 def slowFunction(c):
     print "slow function called..."

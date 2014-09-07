@@ -3,9 +3,9 @@
 '''
 
 import time
-from pyRobotics import BB
-from pyRobotics.ParallelSenders import ParallelSender
-from pyRobotics.Messages import Command, Response
+from pyrobotics import BB
+from pyrobotics.parallel_senders import ParallelSender
+from pyrobotics.messages import Command, Response
 
 # These command handler functions could (and probably should) be defined in another module
 # as to keep the main program file simple and clean.

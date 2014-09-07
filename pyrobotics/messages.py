@@ -1,4 +1,5 @@
-import threading, re
+import threading
+import re
 from abc import ABCMeta
 
 class MessageTypes(object):
