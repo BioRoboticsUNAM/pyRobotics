@@ -2,13 +2,13 @@
   Messages, Commands and Responses
 =====================================
 
-This page includes all information respecting the ``pyRobotics.Messages`` module.
+This page includes all information respecting the ``pyrobotics.messages`` module.
 
 --------------------
      Messages
 --------------------
 
-.. currentmodule:: pyRobotics.Messages
+.. currentmodule:: pyrobotics.messages
 
 .. autoclass:: MessageTypes
   :members:

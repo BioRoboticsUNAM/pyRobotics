@@ -56,16 +56,16 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-pyRobotics.BB">
-<span id="bb-module"></span><h1>3.1. BB module<a class="headerlink" href="#module-pyRobotics.BB" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-pyrobotics.BB">
+<span id="bb-module"></span><h1>3.1. BB module<a class="headerlink" href="#module-pyrobotics.BB" title="Permalink to this headline">¶</a></h1>
 <p>This module contains the main interface to interact with BlackBoard.</p>
 <p>Author: Adrián Revuelta Cuauhtli &lt;<a class="reference external" href="mailto:adrianrc&#46;89&#37;&#52;&#48;gmail&#46;com">adrianrc<span>&#46;</span>89<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
 <p>Workplace: Bio-Robotics Lab., UNAM &lt;<a class="reference external" href="http://bio-robotics.fi-p-unam.mx">http://bio-robotics.fi-p-unam.mx</a>&gt;</p>
 <div class="section" id="bb-functions">
 <h2>3.1.1. BB functions<a class="headerlink" href="#bb-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="pyRobotics.BB.Initialize">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Initialize</tt><big>(</big><em>port</em>, <em>functionMap={}</em>, <em>asyncHandler=None</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.Initialize" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.Initialize">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">Initialize</tt><big>(</big><em>port</em>, <em>functionMap={}</em>, <em>asyncHandler=None</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.Initialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes BlackBoard with the corresponding parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -86,8 +86,8 @@ meaning that would be the handler in case no other handler is found for a specif
 anything, BlackBoard will only send commands that are registered under this module&#8217;s configuration.</p>
 </div>
 </li>
-<li><strong>asyncHandler</strong> (<em>function</em>) &#8211; <p>A function that would handle the response of commands when sent with the method <a class="reference internal" href="#pyRobotics.BB.Send" title="pyRobotics.BB.Send"><tt class="xref py py-func docutils literal"><span class="pre">Send()</span></tt></a>
-instead of using <a class="reference internal" href="#pyRobotics.BB.SendAndWait" title="pyRobotics.BB.SendAndWait"><tt class="xref py py-func docutils literal"><span class="pre">SendAndWait()</span></tt></a>. This means the execution of a program that sends a command could continue
+<li><strong>asyncHandler</strong> (<em>function</em>) &#8211; <p>A function that would handle the response of commands when sent with the method <a class="reference internal" href="#pyrobotics.BB.Send" title="pyrobotics.BB.Send"><tt class="xref py py-func docutils literal"><span class="pre">Send()</span></tt></a>
+instead of using <a class="reference internal" href="#pyrobotics.BB.SendAndWait" title="pyrobotics.BB.SendAndWait"><tt class="xref py py-func docutils literal"><span class="pre">SendAndWait()</span></tt></a>. This means the execution of a program that sends a command could continue
 and an asynchronous handler would handle the response when one is received.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -103,9 +103,9 @@ but it has other implications.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyRobotics.BB.Start">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Start</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.BB.Start" title="Permalink to this definition">¶</a></dt>
-<dd><p>Once pyRobotics is <a class="reference internal" href="#pyRobotics.BB.Initialize" title="pyRobotics.BB.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">initialized</span></tt></a>, you can start the communication with BlackBoard.
+<dt id="pyrobotics.BB.Start">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">Start</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrobotics.BB.Start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once pyRobotics is <a class="reference internal" href="#pyrobotics.BB.Initialize" title="pyrobotics.BB.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">initialized</span></tt></a>, you can start the communication with BlackBoard.
 This will start the threads of the internal <em>ConnectionManager</em> and <em>CommandParser</em> classes to start listening for
 a connection and start receiving and parsin messages.</p>
 <p>If pyRobotics is not initialized it will only print a message saying &#8220;pyRobotics needs to be initialized before starting&#8221;.
@@ -113,23 +113,23 @@ A similar message will show when trying to use some of this module&#8217;s funct
 </dd></dl>
 
 <dl class="function">
-<dt id="pyRobotics.BB.SetReady">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">SetReady</tt><big>(</big><em>val=True</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.SetReady" title="Permalink to this definition">¶</a></dt>
-<dd><p>Once pyRobotics is <a class="reference internal" href="#pyRobotics.BB.Initialize" title="pyRobotics.BB.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">initialized</span></tt></a> and <a class="reference internal" href="#pyRobotics.BB.Start" title="pyRobotics.BB.Start"><tt class="xref py py-func docutils literal"><span class="pre">started</span></tt></a>, this flag should be set to true to
+<dt id="pyrobotics.BB.SetReady">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">SetReady</tt><big>(</big><em>val=True</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.SetReady" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once pyRobotics is <a class="reference internal" href="#pyrobotics.BB.Initialize" title="pyrobotics.BB.Initialize"><tt class="xref py py-func docutils literal"><span class="pre">initialized</span></tt></a> and <a class="reference internal" href="#pyrobotics.BB.Start" title="pyrobotics.BB.Start"><tt class="xref py py-func docutils literal"><span class="pre">started</span></tt></a>, this flag should be set to true to
 let BlackBoard know that the module is functioning correctly and ready to receive commands.
 Even if this module does not receive any commands, this should be set to true.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyRobotics.BB.Wait">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Wait</tt><big>(</big><big>)</big><a class="headerlink" href="#pyRobotics.BB.Wait" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.Wait">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">Wait</tt><big>(</big><big>)</big><a class="headerlink" href="#pyrobotics.BB.Wait" title="Permalink to this definition">¶</a></dt>
 <dd><p>In case this module is only used to receive and respond commands, but is doing nothing while no command is received,
 this will prevent the main thread (and therefore BlackBoard connection and commands execution) to terminate.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="pyRobotics.BB.Send">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">Send</tt><big>(</big><em>message</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.Send" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.Send">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">Send</tt><big>(</big><em>message</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.Send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends a command WITHOUT waiting for an answer.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -144,13 +144,13 @@ this will prevent the main thread (and therefore BlackBoard connection and comma
 </dd></dl>
 
 <dl class="function">
-<dt id="pyRobotics.BB.SendAndWait">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">SendAndWait</tt><big>(</big><em>command</em>, <em>timeout=300000</em>, <em>attempts=1</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.SendAndWait" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.SendAndWait">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">SendAndWait</tt><big>(</big><em>command</em>, <em>timeout=300000</em>, <em>attempts=1</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.SendAndWait" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <span class="target" id="read-shared-var"></span><dl class="function">
-<dt id="pyRobotics.BB.ReadSharedVar">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">ReadSharedVar</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.ReadSharedVar" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.ReadSharedVar">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">ReadSharedVar</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.ReadSharedVar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads the value of a Shared Variable from the BlackBoard.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -165,8 +165,8 @@ this will prevent the main thread (and therefore BlackBoard connection and comma
 </dd></dl>
 
 <span class="target" id="create-shared-var"></span><dl class="function">
-<dt id="pyRobotics.BB.CreateSharedVar">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">CreateSharedVar</tt><big>(</big><em>sharedVarType</em>, <em>name</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.CreateSharedVar" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.CreateSharedVar">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">CreateSharedVar</tt><big>(</big><em>sharedVarType</em>, <em>name</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.CreateSharedVar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a Shared Variable in BlackBoard.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -186,8 +186,8 @@ this will prevent the main thread (and therefore BlackBoard connection and comma
 </dd></dl>
 
 <span class="target" id="write-shared-var"></span><dl class="function">
-<dt id="pyRobotics.BB.WriteSharedVar">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">WriteSharedVar</tt><big>(</big><em>sharedVarType</em>, <em>name</em>, <em>data</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.WriteSharedVar" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.WriteSharedVar">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">WriteSharedVar</tt><big>(</big><em>sharedVarType</em>, <em>name</em>, <em>data</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.WriteSharedVar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes content to a Shared Variable in BlackBoard.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -208,8 +208,8 @@ this will prevent the main thread (and therefore BlackBoard connection and comma
 </dd></dl>
 
 <span class="target" id="subscribe-to-shared-var"></span><dl class="function">
-<dt id="pyRobotics.BB.SubscribeToSharedVar">
-<tt class="descclassname">pyRobotics.BB.</tt><tt class="descname">SubscribeToSharedVar</tt><big>(</big><em>name</em>, <em>handler</em>, <em>subscriptionType='writeothers'</em>, <em>reportType='content'</em><big>)</big><a class="headerlink" href="#pyRobotics.BB.SubscribeToSharedVar" title="Permalink to this definition">¶</a></dt>
+<dt id="pyrobotics.BB.SubscribeToSharedVar">
+<tt class="descclassname">pyrobotics.BB.</tt><tt class="descname">SubscribeToSharedVar</tt><big>(</big><em>name</em>, <em>handler</em>, <em>subscriptionType='writeothers'</em>, <em>reportType='content'</em><big>)</big><a class="headerlink" href="#pyrobotics.BB.SubscribeToSharedVar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subscribes to a Shared Variable in BlackBoard.
 When a module subscribes to a shared variable, it gets notifications when someone writes to it.</p>
 <table class="docutils field-list" frame="void" rules="none">

@@ -2,7 +2,7 @@
   Parallel (or asynchronous) Sender
 ======================================
 
-.. currentmodule:: pyRobotics.ParallelSenders
+.. currentmodule:: pyrobotics.parallel_senders
 
 .. autoclass:: ParallelSender
   :members:
@@ -16,8 +16,8 @@ Example
 
 ::
 
-  from pyRobotics import BB
-  from pyRobotics.ParallelSenders import ParallelSender as PS
+  from pyrobotics import BB
+  from pyrobotics.parallel_senders import ParallelSender as PS
   from otherModule import fastCommand, slowCommand
 
   function_map = {

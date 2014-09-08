@@ -5,7 +5,7 @@
 Pseudo-enums
 ---------------
 
-.. currentmodule:: pyRobotics.SharedVariables
+.. currentmodule:: pyrobotics.shared_variables
 
 .. autoclass:: SharedVarTypes
 
@@ -19,19 +19,19 @@ SharedVar Objects
 
 Using Shared Variables
 -----------------------
-.. method:: pyRobotics.BB.ReadSharedVar
+.. method:: pyrobotics.BB.ReadSharedVar
 
-  (See :meth:`ReadSharedVar <pyRobotics.BB.ReadSharedVar>`)
+  (See :meth:`ReadSharedVar <pyrobotics.BB.ReadSharedVar>`)
 
-.. method:: pyRobotics.BB.CreateSharedVar
+.. method:: pyrobotics.BB.CreateSharedVar
 
-  (See :meth:`CreateSharedVar <pyRobotics.BB.CreateSharedVar>`)
+  (See :meth:`CreateSharedVar <pyrobotics.BB.CreateSharedVar>`)
 
-.. method:: pyRobotics.WriteToSharedVar
+.. method:: pyrobotics.BB.WriteToSharedVar
 
-  (See :meth:`WriteToSharedVar <pyRobotics.BB.WriteToSharedVar>`)
+  (See :meth:`WriteToSharedVar <pyrobotics.BB.WriteToSharedVar>`)
 
-.. method:: pyRobotics.SubscribeToSharedVar
+.. method:: pyrobotics.BB.SubscribeToSharedVar
 
-  (See :meth:`SubscribeToSharedVar <pyRobotics.BB.SubscribeToSharedVar>`)
+  (See :meth:`SubscribeToSharedVar <pyrobotics.BB.SubscribeToSharedVar>`)
 

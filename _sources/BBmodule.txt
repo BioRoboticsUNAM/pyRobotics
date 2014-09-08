@@ -1,9 +1,9 @@
 ==========================
         BB module
 ==========================
-.. currentmodule:: pyRobotics.BB
+.. currentmodule:: pyrobotics.BB
 
-.. automodule:: pyRobotics.BB
+.. automodule:: pyrobotics.BB
 
 -------------------------
     BB functions
