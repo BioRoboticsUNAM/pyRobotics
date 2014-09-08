@@ -2,17 +2,26 @@
   Getting Started
 ===================
 
-Getting pyRobotics into the PYTHON_PATH
+Installing pyRobotics
 ---------------------------------------
 
 In order to use pyRobotics (or any other package) you need to have a copy of the package
-in any of the folders included in the python path. You can download the package from
+in any of the folders included in the python path. You can do this in two ways: installing from a source 
+distribution file from the ``dist`` folder in the source repository or from `pypi <https://pypi.python.org/pypi/pyRobotics>`_,
+or manually copying the source package into a location in the PYTHONPATH. You can download the package from
 `here <http://github.com/BioRoboticsUNAM/pyRobotics>`_.
 
 .. note::
 
   Note that the git repository includes some examples, as well as the library, the package is the FOLDER named pyRobotics
   within the repository.
+
+*To install from a distribution file*
+
+Simply extract the contents of the file with the command ``tar -xzvf pyRobotics-<version>.tar.gz``
+and then run ``python setup.py install`` (You might need superuser permissions).
+
+*To copy the source package in a location in the PYTHON_PATH*
 
 To know which folders are in the ``PYTHON_PATH``, open an interactive console and type:
 
@@ -83,9 +92,9 @@ Creating a Simple Module
 This is an example included with the :ref:`source code <source_code>`::
 
   import time
-  from pyRobotics import BB
-  from pyRobotics.ParallelSenders import ParallelSender
-  from pyRobotics.Messages import Command, Response
+  from pyrobotics import BB
+  from pyrobotics.parallel_senders import ParallelSender
+  from pyrobotics.messages import Command, Response
 
   # These command handler functions could (and probably should) be defined in another module
   # as to keep the main program file simple and clean.
