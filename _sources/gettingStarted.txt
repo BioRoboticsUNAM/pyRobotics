@@ -16,12 +16,14 @@ or manually copying the source package into a location in the PYTHONPATH. You ca
   Note that the git repository includes some examples, as well as the library, the package is the FOLDER named pyRobotics
   within the repository.
 
-*To install from a distribution file*
+To install from a distribution file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Simply extract the contents of the file with the command ``tar -xzvf pyRobotics-<version>.tar.gz``
 and then run ``python setup.py install`` (You might need superuser permissions).
 
-*To copy the source package in a location in the PYTHON_PATH*
+To copy the source package in a location in the PYTHON_PATH
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To know which folders are in the ``PYTHON_PATH``, open an interactive console and type:
 

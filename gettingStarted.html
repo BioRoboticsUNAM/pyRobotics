@@ -68,10 +68,13 @@ or manually copying the source package into a location in the PYTHONPATH. You ca
 <p class="last">Note that the git repository includes some examples, as well as the library, the package is the FOLDER named pyRobotics
 within the repository.</p>
 </div>
-<p><em>To install from a distribution file</em></p>
+<div class="section" id="to-install-from-a-distribution-file">
+<h3>2.1.1. To install from a distribution file<a class="headerlink" href="#to-install-from-a-distribution-file" title="Permalink to this headline">¶</a></h3>
 <p>Simply extract the contents of the file with the command <tt class="docutils literal"><span class="pre">tar</span> <span class="pre">-xzvf</span> <span class="pre">pyRobotics-&lt;version&gt;.tar.gz</span></tt>
 and then run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt> (You might need superuser permissions).</p>
-<p><em>To copy the source package in a location in the PYTHON_PATH</em></p>
+</div>
+<div class="section" id="to-copy-the-source-package-in-a-location-in-the-python-path">
+<h3>2.1.2. To copy the source package in a location in the PYTHON_PATH<a class="headerlink" href="#to-copy-the-source-package-in-a-location-in-the-python-path" title="Permalink to this headline">¶</a></h3>
 <p>To know which folders are in the <tt class="docutils literal"><span class="pre">PYTHON_PATH</span></tt>, open an interactive console and type:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sys</span><span class="o">.</span><span class="n">path</span>
@@ -79,6 +82,7 @@ and then run <tt class="docutils literal"><span class="pre">python</span> <span 
 </div>
 <p>Alternatively, you can modify your python configuration to include in the <tt class="docutils literal"><span class="pre">PYTHON_PATH</span></tt> whichever folder <tt class="docutils literal"><span class="pre">pyRobotics</span></tt>
 is located in.</p>
+</div>
 </div>
 <div class="section" id="creating-a-command-handler">
 <span id="id1"></span><h2>2.2. Creating a Command Handler<a class="headerlink" href="#creating-a-command-handler" title="Permalink to this headline">¶</a></h2>
@@ -178,7 +182,11 @@ what to do with them.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">2. Getting Started</a><ul>
-<li><a class="reference internal" href="#installing-pyrobotics">2.1. Installing pyRobotics</a></li>
+<li><a class="reference internal" href="#installing-pyrobotics">2.1. Installing pyRobotics</a><ul>
+<li><a class="reference internal" href="#to-install-from-a-distribution-file">2.1.1. To install from a distribution file</a></li>
+<li><a class="reference internal" href="#to-copy-the-source-package-in-a-location-in-the-python-path">2.1.2. To copy the source package in a location in the PYTHON_PATH</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#creating-a-command-handler">2.2. Creating a Command Handler</a></li>
 <li><a class="reference internal" href="#creating-a-subscription-handler">2.3. Creating a Subscription Handler</a></li>
 <li><a class="reference internal" href="#creating-a-simple-module">2.4. Creating a Simple Module</a></li>
