@@ -8,4 +8,5 @@ setup(name='pyRobotics',
     url='http://bioroboticsunam.github.io/pyRobotics',
     license='LICENSE.txt',
     data_files=[('', ['README.md', 'LICENSE.txt'])],
+    description='A Python API to create modules that connect to our BlackBoard',
     packages=['pyrobotics'])
