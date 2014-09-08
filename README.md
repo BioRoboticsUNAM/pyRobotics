@@ -11,6 +11,9 @@ These softwares are all part of the work developed at the Bio-Robotics Laborator
 The documentation for pyRobotics is [here](http://bioroboticsUNAM.github.io/pyRobotics). It is still in beta testing.
 If someone should be interested in knowing more about any of these projects, you can contact me at adrianrc[dot]89[at]gmail[dot]com.
 
+### Installation
+
+To install the library from a distutils package (pyRobotics-<version>.tar.gz), simply run `python setup.py install`. (You might need super user permissions)
 ### IMPORTANT NOTE
 
 The files at the top level folder are examples, the actual library is in the pyRobotics folder.

@@ -7,4 +7,5 @@ setup(name='pyRobotics',
     author_email='adrianrc.89@gmail.com',
     url='http://bioroboticsunam.github.io/pyRobotics',
     license='LICENSE.txt',
+    data_files=[('', ['README.md'])],
     packages=['pyrobotics'])
