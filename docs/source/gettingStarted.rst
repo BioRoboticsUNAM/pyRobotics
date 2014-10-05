@@ -35,7 +35,7 @@ is located in.
 
 Creating a Command Handler
 -----------------------------
-.. currentmodule:: pyRobotics.Messages
+.. currentmodule:: pyrobotics.messages
 
 A command handler is a function that receives a :class:`Command` object and returns a
 :class:`Response` object.
