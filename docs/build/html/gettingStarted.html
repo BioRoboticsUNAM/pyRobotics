@@ -82,9 +82,9 @@ is located in.</p>
 </div>
 <div class="section" id="creating-a-command-handler">
 <span id="id1"></span><h2>2.2. Creating a Command Handler<a class="headerlink" href="#creating-a-command-handler" title="Permalink to this headline">¶</a></h2>
-<p>A command handler is a function that receives a <tt class="xref py py-class docutils literal"><span class="pre">Command</span></tt> object and returns a
-<tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt> object.</p>
-<p>The Response object should be created by the class function <tt class="xref py py-func docutils literal"><span class="pre">Response.FromCommandObject()</span></tt>. This is important
+<p>A command handler is a function that receives a <a class="reference internal" href="Messages.html#pyrobotics.messages.Command" title="pyrobotics.messages.Command"><tt class="xref py py-class docutils literal"><span class="pre">Command</span></tt></a> object and returns a
+<a class="reference internal" href="Messages.html#pyrobotics.messages.Response" title="pyrobotics.messages.Response"><tt class="xref py py-class docutils literal"><span class="pre">Response</span></tt></a> object.</p>
+<p>The Response object should be created by the class function <a class="reference internal" href="Messages.html#pyrobotics.messages.Response.FromCommandObject" title="pyrobotics.messages.Response.FromCommandObject"><tt class="xref py py-func docutils literal"><span class="pre">Response.FromCommandObject()</span></tt></a>. This is important
 because every command has an internal id to keep track of commands and responses, and this functions creates the approppriate
 response.</p>
 <p>Here you can see an example of a command handler:</p>
@@ -106,7 +106,7 @@ parameters.</p>
 <div class="section" id="creating-a-subscription-handler">
 <span id="id2"></span><h2>2.3. Creating a Subscription Handler<a class="headerlink" href="#creating-a-subscription-handler" title="Permalink to this headline">¶</a></h2>
 <p>A subscription hanlder is a function that will execute whenever a notification of an updated shared variable is received.
-(Whenever somebody writes to it). It receives a <tt class="xref py py-class docutils literal"><span class="pre">SharedVar</span></tt> object and should not return anything.</p>
+(Whenever somebody writes to it). It receives a <a class="reference internal" href="SharedVariables.html#pyrobotics.shared_variables.SharedVar" title="pyrobotics.shared_variables.SharedVar"><tt class="xref py py-class docutils literal"><span class="pre">SharedVar</span></tt></a> object and should not return anything.</p>
 <p>Since the function receives the SharedVar object, it has the information of what type of shared var it is, and its data, so
 there could be one subscription handler for more than one shared variable (or all) and the handler should then decide
 what to do with them.</p>

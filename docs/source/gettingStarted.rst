@@ -66,7 +66,7 @@ Creating a Subscription Handler
 ---------------------------------
 
 A subscription hanlder is a function that will execute whenever a notification of an updated shared variable is received.
-(Whenever somebody writes to it). It receives a :class:`SharedVar` object and should not return anything.
+(Whenever somebody writes to it). It receives a :class:`SharedVar <pyrobotics.shared_variables.SharedVar>` object and should not return anything.
 
 Since the function receives the SharedVar object, it has the information of what type of shared var it is, and its data, so
 there could be one subscription handler for more than one shared variable (or all) and the handler should then decide
