@@ -17,17 +17,17 @@ class ConnectionManager(object):
         port - Is the port to which the socket will be bound to listen for incoming connections.
         '''
         self.port = port
-        self.__clientIsConnected = False
-        self.__cicLock = threading.Lock()
+        self._clientIsConnected = False
+        self._cicLock = threading.Lock()
         
-        self.__buildListenintSocket()
+        self._buildListenintSocket()
         
-        self.__connEstablishedCondition = threading.Event()
+        self._connEstablishedCondition = threading.Event()
         
-        self.listeningThread = threading.Thread(target=self.__receivingThread)
+        self.listeningThread = threading.Thread(target=self._receivingThread)
         self.listeningThread.daemon = True
         
-    def __buildListenintSocket(self):
+    def _buildListenintSocket(self):
         self.listeningSock = socket.socket()
         self.listeningSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.listeningSock.bind(('0.0.0.0', self.port))
@@ -38,45 +38,45 @@ class ConnectionManager(object):
         self.sock, self.remoteAddress = self.listeningSock.accept()
         
         self.clientIsConnected = True
-        print 'Blackboard connected from {}'.format(self.remoteAddress)
+        print 'Blackboard connected from {0}'.format(self.remoteAddress)
         
-        self.__connEstablishedCondition.clear()
+        self._connEstablishedCondition.clear()
         self.listeningThread.start()
         
-        self.__connEstablishedCondition.wait()
+        self._connEstablishedCondition.wait()
         
         self.listeningSock.close()
         
-    def __accept(self):
+    def _accept(self):
         
         self.sock, self.remoteAddress = self.listeningSock.accept()
         
         self.clientIsConnected = True
-        print 'Blackboard connected from {}'.format(self.remoteAddress)
+        print 'Blackboard connected from {0}'.format(self.remoteAddress)
         
         self.listeningSock.close()
         
     @property
     def clientIsConnected(self):
-        self.__cicLock.acquire()
-        r = self.__clientIsConnected
-        self.__cicLock.release()
+        self._cicLock.acquire()
+        r = self._clientIsConnected
+        self._cicLock.release()
         return r
     
     @clientIsConnected.setter
     def clientIsConnected(self, val):
-        self.__cicLock.acquire()
-        self.__clientIsConnected = val
-        self.__cicLock.release()
+        self._cicLock.acquire()
+        self._clientIsConnected = val
+        self._cicLock.release()
     
-    def __receivingThread(self):
+    def _receivingThread(self):
         
-        self.__connEstablishedCondition.set()
+        self._connEstablishedCondition.set()
         
         while True:
             if not self.clientIsConnected:
-                self.__buildListenintSocket()
-                self.__accept()
+                self._buildListenintSocket()
+                self._accept()
 
             try:
                 data = self.sock.recv(4096)

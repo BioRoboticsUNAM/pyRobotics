@@ -18,37 +18,37 @@ class ParallelSender(object):
     '''
 
     def __init__(self, command, timeout = 300000, attempts = 1):
-        self.__sendingLock = threading.Lock()
-        self.__sending = True
+        self._sendingLock = threading.Lock()
+        self._sending = True
         
-        self.__respLock = threading.Lock()
-        self.__response = None
+        self._respLock = threading.Lock()
+        self._response = None
     
-        self.__command = command
+        self._command = command
         
-        self.__attemptsLock = threading.Lock()
-        self.__attempts = attempts
+        self._attemptsLock = threading.Lock()
+        self._attempts = attempts
         
-        self.__timeout = timeout/1000.0
+        self._timeout = timeout/1000.0
         
-        self.__p = threading.Thread(target=self.__Execute)
-        self.__p.daemon = True
-        self.__p.start()
+        self._p = threading.Thread(target=self._Execute)
+        self._p.daemon = True
+        self._p.start()
         
     @property
     def sending(self):
         '''
             A property that indicates whether the object is still waiting for a response.
         '''
-        self.__sendingLock.acquire()
-        r = self.__sending
-        self.__sendingLock.release()
+        self._sendingLock.acquire()
+        r = self._sending
+        self._sendingLock.release()
         return r
     
-    def __setSending(self, s):
-        self.__sendingLock.acquire()
-        self.__sending = s
-        self.__sendingLock.release()
+    def _setSending(self, s):
+        self._sendingLock.acquire()
+        self._sending = s
+        self._sendingLock.release()
     
     @property
     def response(self):
@@ -57,40 +57,40 @@ class ParallelSender(object):
             
             This property should be used when *sending* is ``False``.
         '''
-        if not self.__respLock.acquire(False):
+        if not self._respLock.acquire(False):
             return None
-        r = self.__response
-        self.__respLock.release()
+        r = self._response
+        self._respLock.release()
         return r
     
-    def __setResponse(self, R):
-        self.__respLock.acquire()
-        self.__response = R
-        self.__respLock.release()
+    def _setResponse(self, R):
+        self._respLock.acquire()
+        self._response = R
+        self._respLock.release()
     
     def StopSending(self):
-        self.__attemptsLock.acquire()
-        self.__attempts = 1
-        self.__attemptsLock.release()
+        self._attemptsLock.acquire()
+        self._attempts = 1
+        self._attemptsLock.release()
         
-    def __Execute(self):
+    def _Execute(self):
         
         response = None
         
         currentAttempt = 0
         
-        self.__attemptsLock.acquire()
-        att = self.__attempts
-        self.__attemptsLock.release()
+        self._attemptsLock.acquire()
+        att = self._attempts
+        self._attemptsLock.release()
         
         while not response and (att == 0 or currentAttempt < att):
             currentAttempt += 1
-            response = BB.SendAndWait(self.__command, self.__timeout)
+            response = BB.SendAndWait(self._command, self._timeout)
             
-            self.__attemptsLock.acquire()
-            att = self.__attempts
-            self.__attemptsLock.release()
+            self._attemptsLock.acquire()
+            att = self._attempts
+            self._attemptsLock.release()
         
-        self.__setResponse(response)
-        self.__setSending(False)
+        self._setResponse(response)
+        self._setSending(False)
         

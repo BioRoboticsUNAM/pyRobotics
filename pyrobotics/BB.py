@@ -19,19 +19,21 @@ from messages import Message, Command, Response
 from connection_manager import ConnectionManager
 from command_parser import CommandParser
 
+__version__ = '1.6.0'
+
 ParallelSender = parallel_senders.ParallelSender
 
 SharedVarTypes = shared_variables.SharedVarTypes
 SubscriptionTypes = shared_variables.SubscriptionTypes
 ReportTypes = shared_variables.ReportTypes
 
-__initialized = False
+_initialized = False
 
-__started = False
-__startedLock = threading.Lock()
+_started = False
+_startedLock = threading.Lock()
 
-__ready = False
-__readyLock = threading.Lock()
+_ready = False
+_readyLock = threading.Lock()
 
 _subscriptionHandlersLock = threading.Lock()
 _subscriptionHandlers = {}
@@ -74,27 +76,27 @@ def Initialize(port, functionMap={}, asyncHandler = None):
             but it has other implications.
     
     '''
-    global __executors, __connMan, __parser, __p, __initialized, __ready
+    global _executors, _connMan, _parser, _p, _initialized, _ready
     
-    __executors = { 'busy' : (lambda x: Response('busy'), False),
-                      'ready' : (__isReady, False),
+    _executors = { 'busy' : (lambda x: Response('busy'), False),
+                      'ready' : (_isReady, False),
                       'alive' : (lambda x: Response('alive', True), False) }
 
     for m in functionMap:
         if isinstance(functionMap[m], types.FunctionType):
-            __executors[m] = (functionMap[m], False)
+            _executors[m] = (functionMap[m], False)
         elif isinstance(functionMap[m], tuple):
-            __executors[m] = functionMap[m]
+            _executors[m] = functionMap[m]
         else:
             print 'Element in function map is not a function nor a correct tuple: ' + repr(functionMap[m])
     
-    __connMan = ConnectionManager(port)
-    __parser = CommandParser(asyncHandler)
+    _connMan = ConnectionManager(port)
+    _parser = CommandParser(asyncHandler)
     
-    __p = threading.Thread(target=__MainThread)
-    __p.daemon = True
+    _p = threading.Thread(target=_MainThread)
+    _p.daemon = True
     
-    __initialized = True
+    _initialized = True
 
 def Start():
     '''
@@ -110,19 +112,19 @@ def Start():
         Fix bug: sometimes when connection is established successfully a message saying pyRobotics has not been started is printed.
     
     '''
-    global __p, __connMann, __parser, __initialized, __started, __startedLock
+    global _p, _connMann, _parser, _initialized, _started, _startedLock
     
-    if not __initialized:
+    if not _initialized:
         print 'pyRobotics needs to be initialized before starting.'
         return
     
-    __parser.Start()
-    __connMan.Start()
-    __p.start()
+    _parser.Start()
+    _connMan.Start()
+    _p.start()
     
-    __startedLock.acquire()
-    __started = True
-    __startedLock.release()
+    _startedLock.acquire()
+    _started = True
+    _startedLock.release()
 
 def SetReady(val=True):
     '''
@@ -130,26 +132,26 @@ def SetReady(val=True):
     let BlackBoard know that the module is functioning correctly and ready to receive commands.
     Even if this module does not receive any commands, this should be set to true.
     '''
-    global __ready, __readyLock, __started, __startedLock
+    global _ready, _readyLock, _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     
-    __readyLock.acquire()
-    __ready = val
-    __readyLock.release()
+    _readyLock.acquire()
+    _ready = val
+    _readyLock.release()
 
-def __isReady(c):
-    global __ready, __readyLock
+def _isReady(c):
+    global _ready, _readyLock
     
-    __readyLock.acquire()
-    ready = __ready
-    __readyLock.release()
+    _readyLock.acquire()
+    ready = _ready
+    _readyLock.release()
     
     return Response('ready', ready)
 
@@ -158,40 +160,40 @@ def Wait():
     In case this module is only used to receive and respond commands, but is doing nothing while no command is received,
     this will prevent the main thread (and therefore BlackBoard connection and commands execution) to terminate.
     '''
-    global __started, __startedLock
+    global _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     
     while True:
         time.sleep(300)
 
-def __MainThread():
-    global _receivedCommands, __executors
+def _MainThread():
+    global _receivedCommands, _executors
     while True:
         command = _receivedCommands.get()
         key = command.name
-        if key not in __executors:
-            if '*' in __executors:
+        if key not in _executors:
+            if '*' in _executors:
                 key = '*'
             else:
                 print 'Executor not found for command: ' + command.name
                 return
         
-        func, async = __executors[key]
+        func, async = _executors[key]
         if async:
-            p = threading.Thread(target=__Execute, args=(func, command))
+            p = threading.Thread(target=_Execute, args=(func, command))
             p.daemon = True
             p.start()
         else:
-            __Execute(func, command)
+            _Execute(func, command)
 
-def __Execute(func, command):
+def _Execute(func, command):
     try:
         response = func(command)
     except:
@@ -200,6 +202,7 @@ def __Execute(func, command):
     
     if not isinstance(response, Response):
         print "Function '" + str(func) + "' did not return a Response object."
+        response = Response.FromCommandObject(command, False, command.params)
     
     resp = Response.FromCommandObject(command, response.successful, response.params)
     
@@ -212,13 +215,13 @@ def Send(message):
     :param Command message: Message to be sent, must be an instance of the Command class.
     :return: ``True`` if the message was sent successfully, ``False`` otherwise.
     '''
-    global __connMan, __started, __startedLock
+    global _connMan, _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     
@@ -227,13 +230,13 @@ def Send(message):
         return False
     
     for _ in range(3):
-        if __connMan.Send(message):
+        if _connMan.Send(message):
             return True
     
     return False
 
 def SendAndWait(command, timeout=300000, attempts = 1):
-    global _commandsLock, _sentCommands, _responsesLock, _receivedResponses, __started, __startedLock
+    global _commandsLock, _sentCommands, _responsesLock, _receivedResponses, _started, _startedLock
     '''
     Sends a command and wait for the answer. This blocks the execution of the calling thread.
     
@@ -244,11 +247,11 @@ def SendAndWait(command, timeout=300000, attempts = 1):
     :return: A :class:`Response` object if the message was sent successfully and a response was received before the timeout occurred, ``None`` otherwise.
     '''
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return None
     
@@ -292,13 +295,13 @@ def ReadSharedVar(name):
     :param string name: The name of the Shared Variable.
     :return: A :class:`SharedVar` object if the request was successful, ``False`` if pyRobotics has not been started, ``None`` otherwise.
     '''
-    global __started, __startedLock
+    global _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     
@@ -312,13 +315,13 @@ def CreateSharedVar(sharedVarType, name):
     :param string name: The name of the shared variable to be created.
     :return: ``True`` if creation was successful, ``False`` otherwise.
     '''
-    global __started, __startedLock
+    global _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     
@@ -333,13 +336,13 @@ def WriteSharedVar(sharedVarType, name, data):
     :param var data: The data to be written, the type must match the shared variable's type.
     :return: ``True`` if shared variable was succesfully written to, ``False`` otherwise.
     '''
-    global __started, __startedLock
+    global _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     
@@ -356,13 +359,13 @@ def SubscribeToSharedVar(name, handler, subscriptionType=SubscriptionTypes.WRITE
     :param enum reportType: The type of report to receive when someone writes to it, it is one of the constants in :class:`ReportTypes` pseudo-enum.
     :return: ``True`` if subscription was successful, ``False`` otherwise.
     '''
-    global _subscriptionHandlersLock, _subscriptionHandlers, __started, __startedLock
+    global _subscriptionHandlersLock, _subscriptionHandlers, _started, _startedLock
     
-    __startedLock.acquire()
-    _started = __started
-    __startedLock.release()
+    _startedLock.acquire()
+    started = _started
+    _startedLock.release()
     
-    if not _started:
+    if not started:
         print 'pyRobotics has not been started.'
         return False
     

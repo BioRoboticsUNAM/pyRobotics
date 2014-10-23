@@ -8,15 +8,15 @@ class CommandParser(object):
         
     def __init__(self, asyncHandler = None):
         
-        self.__p = threading.Thread(target=self.__parsingThread)
-        self.__p.daemon = True
+        self._p = threading.Thread(target=self._parsingThread)
+        self._p.daemon = True
         
-        self.__asyncHandler = asyncHandler 
+        self._asyncHandler = asyncHandler 
     
     def Start(self):
-        self.__p.start()
+        self._p.start()
     
-    def __parsingThread(self):
+    def _parsingThread(self):
         
         while True:
             
@@ -50,8 +50,8 @@ class CommandParser(object):
                     BB._responsesLock.acquire()
                     BB._receivedResponses[el] = el
                     BB._responsesLock.release()
-                elif self.__asyncHandler:
-                    self.__asyncHandler(el)
+                elif self._asyncHandler:
+                    self._asyncHandler(el)
                 else:
                     print 'Response without awaiting command: ' + repr(el)
                 BB._commandsLock.release()

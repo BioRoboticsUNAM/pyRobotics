@@ -1,4 +1,4 @@
 .*
 !.gitignore
 examples/*.pyc
-pyRobotics/*.pyc
+pyrobotics/*.pyc

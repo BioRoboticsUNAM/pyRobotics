@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from distutils.core import setup
-
+from pyrobotics.BB import __version__
 setup(name='pyRobotics',
-    version='1.5.1',
+    version=__version__,
     author='Adrián Revuelta Cuauhtli',
     author_email='adrianrc.89@gmail.com',
     url='http://bioroboticsunam.github.io/pyRobotics',

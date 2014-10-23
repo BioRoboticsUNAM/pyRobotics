@@ -86,7 +86,7 @@ class SharedVar(Message):
         Contains the deserialized data of this shared variable, depending on its type.
     
     '''
-    __rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))?\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
+    _rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))?\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
     
     def __init__(self, responseObj):
         super(SharedVar, self).__init__(responseObj.name)
@@ -103,7 +103,7 @@ class SharedVar(Message):
         
         var = SharedVar(r)
         
-        m = SharedVar.__rx.match(var.params)
+        m = SharedVar._rx.match(var.params)
         
         if not m:
             print 'read_var received but failed to parse:'
@@ -120,19 +120,19 @@ class SharedVar(Message):
         
         var.isNotification = not not var.report
         
-        var.data = SharedVar.__ProcessReadVar(var)
+        var.data = SharedVar._ProcessReadVar(var)
         
         return var
     
     @classmethod
-    def __ProcessReadVar(cls, var):
+    def _ProcessReadVar(cls, var):
     
         try:
             if not var.data:
                 return None
             
             if var.svType == SharedVarTypes.STRING:
-                return SharedVar.__DeserializeString(var.data)
+                return SharedVar._DeserializeString(var.data)
             
             if var.svType in [SharedVarTypes.INT, SharedVarTypes.LONG]:
                 return int(var.data)
@@ -147,13 +147,13 @@ class SharedVar(Message):
                 return [float(x) for x in var.data.split()]
             
             if var.svType == SharedVarTypes.BYTE_ARRAY:
-                return SharedVar.__DeserializeByteArray(var.data)
+                return SharedVar._DeserializeByteArray(var.data)
             
             if var.svType == SharedVarTypes.RECOGNIZED_SPEECH:
-                return SharedVar.__DeserializeRecognizedSpeech(var.data)
+                return SharedVar._DeserializeRecognizedSpeech(var.data)
             
             if var.svType == SharedVarTypes.MATRIX:
-                return SharedVar.__DeserializeMatrix(var.data)
+                return SharedVar._DeserializeMatrix(var.data)
             
             if var.svType == SharedVarTypes.VAR:
                 if var.data == 'null':
@@ -166,7 +166,7 @@ class SharedVar(Message):
         return None
 
     @classmethod
-    def __DeserializeString(cls, data):
+    def _DeserializeString(cls, data):
         
         if data == 'null':
             return None
@@ -210,7 +210,7 @@ class SharedVar(Message):
         return '\\"' + data + '\\"'
     
     @classmethod
-    def __DeserializeByteArray(cls, data):
+    def _DeserializeByteArray(cls, data):
         data = data[2:]
         l = []
         while data:
@@ -219,7 +219,7 @@ class SharedVar(Message):
         return l
 
     @classmethod
-    def __DeserializeMatrix(cls, data):
+    def _DeserializeMatrix(cls, data):
         rows, data = data.split(None, 1)
         x = rows.find('x')
         columns = int(rows[x+1:])
@@ -255,7 +255,7 @@ class SharedVar(Message):
         return txt
 
     @classmethod
-    def __DeserializeRecognizedSpeech(cls, data):
+    def _DeserializeRecognizedSpeech(cls, data):
         '''Returns a list which contains tuples (2 elements each) with string and confidence.'''
         if data == '' or data == 'null':
             return None
