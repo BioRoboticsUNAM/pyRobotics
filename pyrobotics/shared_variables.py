@@ -86,7 +86,7 @@ class SharedVar(Message):
         Contains the deserialized data of this shared variable, depending on its type.
     
     '''
-    _rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\\\.|[^"])*")|({[^}]*})))?\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
+    _rx = re.compile(r'^\s*({\s*)?(?P<type>([a-zA-Z_][_a-zA-Z0-9]*))(?P<array>(\[(?P<size>\d+)?\]))?\s+(?P<name>([a-zA-Z_][_a-zA-Z0-9]*))\s+(?P<data>(("(\\.|[^"])*")|({[^}]*})))?\s*}?((\s+%)?\s+(?P<report>(\w+))\s+%\s+(?P<subscription>(\w+))\s+%\s+(?P<writer>([A-Z][0-9A-Z\-]*)))?')
     
     def __init__(self, responseObj):
         super(SharedVar, self).__init__(responseObj.name)
@@ -107,6 +107,7 @@ class SharedVar(Message):
         
         if not m:
             print 'read_var received but failed to parse:'
+            print var.params
             return None
         
         var.svType = m.group('type') + ('[]' if m.group('array') else '')
@@ -132,7 +133,7 @@ class SharedVar(Message):
                 return None
             
             if var.svType == SharedVarTypes.STRING:
-                return SharedVar._DeserializeString(var.data)
+                return Message._DeserializeString(var.data)
             
             if var.svType in [SharedVarTypes.INT, SharedVarTypes.LONG]:
                 return int(var.data)
@@ -164,50 +165,6 @@ class SharedVar(Message):
         
         print 'Error parsing type: ' + var.svType
         return None
-
-    @classmethod
-    def _DeserializeString(cls, data):
-        
-        if data == 'null':
-            return None
-        
-        start = data.find('"')
-        end = data.rfind('"')
-        if start < 0 or end <= start:
-            return None
-        
-        data = data[start+1:end]
-        
-        #Parsing as Response first, as its done by the SharedVariables parser, gets rid of one slash before a double quote.
-        #This is why deserializing has less slash than serializing. 
-        data = data.replace('\\\\"', '"')
-        data = data.replace("\\\\'", "'")
-        
-        data = data.replace('\\\\t', '\t')
-        data = data.replace('\\\\r', '\r')
-        data = data.replace('\\\\n', '\n')
-        
-        data = data.replace('\\\\', '\\')
-        
-        return data
-
-    @classmethod
-    def _SerializeString(cls, data):
-        if data is None:
-            return 'null'
-        
-        #data = data.strip()
-        
-        data = data.replace('\\', '\\\\')
-        
-        data = data.replace('\n', '\\\\n')
-        data = data.replace('\r', '\\\\r')
-        data = data.replace('\t', '\\\\t')
-        
-        data = data.replace("'", "\\\\\\'")
-        data = data.replace('"', '\\\\\\"')
-        
-        return '\\"' + data + '\\"'
     
     @classmethod
     def _DeserializeByteArray(cls, data):
@@ -311,7 +268,7 @@ def _WriteSharedVar(sharedVarType, name, data):
     elif sharedVarType == SharedVarTypes.DOUBLE_ARRAY:
         w = ' '.join([str(float(x)) for x in data])
     elif sharedVarType == SharedVarTypes.STRING:
-        w = SharedVar._SerializeString(data)
+        w = Message._SerializeString(data)
     elif sharedVarType == SharedVarTypes.MATRIX:
         w = SharedVar._SerializeMatrix(data)
     else:

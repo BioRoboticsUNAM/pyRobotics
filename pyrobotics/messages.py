@@ -66,12 +66,68 @@ class Message(object):
     def __repr__(self):
         textrep = self.name
         if not self._isStandardCommand():
-            textrep += ' "' + str(self.params) + '"'
+            textrep += ' ' + Message._SerializeString(self.params)
         if self.type in [MessageTypes.RESPONSE, MessageTypes.SHARED_VAR]:
             textrep += ' ' + str(int(self.successful))
         if self._id > -1:
             textrep += ' @' + str(self._id)
         return textrep
+    
+    @classmethod
+    def _DeserializeString(cls, data):
+        
+        if data == 'null':
+            return None
+
+        start = data.find('"')
+        end = data.rfind('"')
+        if start < 0 or end <= start:
+            return None
+    
+        data = data[start+1:end]
+        
+        data = re.sub(r'(?<!\\)\\"', r'"', data)
+        data = re.sub(r'\\\\\\"', r'\\"', data)
+        
+        data = re.sub(r"(?<!\\)\\'", r"'", data)
+        data = re.sub(r"\\\\\\'", r"\\'", data)
+    
+        data = re.sub(r'(?<!\\)\\n', r'\n', data)
+        data = re.sub(r'\\\\n', r'\\n', data)
+    
+        data = re.sub(r'(?<!\\)\\t', r'\t', data)
+        data = re.sub(r'\\\\t', r'\\t', data)
+    
+        data = re.sub(r'(?<!\\)\\r', r'\r', data)
+        data = re.sub(r'\\\\r', r'\\r', data)
+    
+        return data
+
+    @classmethod
+    def _SerializeString(cls, data):
+        if data == None:
+            return 'null'
+        
+        data = str(data)
+    
+        data = re.sub(r'\\n', r'\\\\n', data)
+        data = re.sub(r'\n', r'\\n', data)
+    
+        data = re.sub(r'\\t', r'\\\\t', data)
+        data = re.sub(r'\t', r'\\t', data)
+    
+        data = re.sub(r'\\r', r'\\\\r', data)
+        data = re.sub(r'\r', r'\\r', data)
+    
+        data = re.sub(r'\\"', r'\\\\\\"', data)
+        data = re.sub(r'(?<!\\)"', r'\\"', data)
+        
+        data = re.sub(r"\\'", r"\\\\\\'", data)
+        data = re.sub(r"(?<!\\)'", r"\\'", data)
+    
+        data = '"' + data + '"'
+    
+        return data
 
 class Command(Message):
     '''
@@ -82,11 +138,15 @@ class Command(Message):
     _idCounter = 1
     _idLock = threading.Lock()
     
-    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+"(?P<params>(\\.|[^"])*)")?(\s+@(?P<id>\d+))?$')
+    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+(?P<params>"(\\"|[^"])*"))?(\s+@(?P<id>\d+))?$')
     
     def __init__(self, commandName, params = "", idNum = None):
+        
         super(Command, self).__init__(commandName, params)
         self.type = MessageTypes.COMMAND
+        
+        print self.__repr__()
+        
         #Workaround for BB not returning ID on these commands:
         if commandName == 'write_var':
             return
@@ -111,7 +171,8 @@ class Command(Message):
         if sId and len(sId) > 0:
             idNum = int(sId)
         if sParams:
-            sParams = sParams.replace("\\\"", "\"")
+            #sParams = sParams.replace("\\\"", "\"")
+            sParams = Message._DeserializeString(sParams)
         return Command(sCommand, sParams, idNum)
 
 class Response(Message):
@@ -133,7 +194,7 @@ class Response(Message):
         This is important because an internal id is generated to keep track of the commands and their responses.
     '''
     
-    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+"(?P<params>(\\.|[^"])*)")?\s+(?P<result>[10])(\s+@(?P<id>\d+))?$')
+    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+(?P<params>"(\\"|[^"])*"))?\s+(?P<result>[10])(\s+@(?P<id>\d+))?$')
     
     def __init__(self, commandName, successful = False, response = ''):
         super(Response, self).__init__(commandName, response)
@@ -158,8 +219,9 @@ class Response(Message):
             idNum = int(sId)
                     
         successful = int(sResult == '1')
+        
         if sParams:
-            sParams = sParams.replace("\\\"", "\"")
+            sParams = Message._DeserializeString(sParams)
         
         r = Response(sCommand, successful, sParams)
         r._id = idNum
