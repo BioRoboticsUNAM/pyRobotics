@@ -145,8 +145,6 @@ class Command(Message):
         super(Command, self).__init__(commandName, params)
         self.type = MessageTypes.COMMAND
         
-        print self.__repr__()
-        
         #Workaround for BB not returning ID on these commands:
         if commandName == 'write_var':
             return

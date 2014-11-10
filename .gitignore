@@ -2,3 +2,4 @@
 !.gitignore
 examples/*.pyc
 pyrobotics/*.pyc
+updating_manual.txt
