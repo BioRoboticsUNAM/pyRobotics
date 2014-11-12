@@ -120,4 +120,3 @@ class ConnectionManager(object):
             return False
         
         return True
-            

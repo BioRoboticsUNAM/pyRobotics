@@ -12,6 +12,7 @@ import threading
 import time
 import types
 import Queue
+import sys
 
 # PACKAGE IMPORTS
 import shared_variables, parallel_senders
@@ -19,7 +20,7 @@ from messages import Message, Command, Response
 from connection_manager import ConnectionManager
 from command_parser import CommandParser
 
-__version__ = '1.7.1'
+__version__ = '1.7.2'
 
 ParallelSender = parallel_senders.ParallelSender
 
@@ -118,9 +119,12 @@ def Start():
         print 'pyRobotics needs to be initialized before starting.'
         return
     
-    _parser.Start()
-    _connMan.Start()
-    _p.start()
+    try:
+        _parser.Start()
+        _connMan.Start()
+        _p.start()
+    except (KeyboardInterrupt, SystemExit):
+        sys.exit()
     
     _startedLock.acquire()
     _started = True
@@ -170,8 +174,11 @@ def Wait():
         print 'pyRobotics has not been started.'
         return False
     
-    while True:
-        time.sleep(300)
+    try:
+        while True:
+            time.sleep(300)
+    except (KeyboardInterrupt, SystemExit):
+        sys.exit()
 
 def _MainThread():
     global _receivedCommands, _executors
