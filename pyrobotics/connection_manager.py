@@ -1,5 +1,6 @@
 import socket
 import threading
+import sys
 
 import BB
 
@@ -35,7 +36,13 @@ class ConnectionManager(object):
 
     def Start(self):
         
-        self.sock, self.remoteAddress = self.listeningSock.accept()
+        print 'Waiting for BlackBoard connection...'
+        
+        try:
+            self.sock, self.remoteAddress = self.listeningSock.accept()
+        except (socket.error, KeyboardInterrupt, SystemExit):
+            self.listeningSock.close()
+            sys.exit()
         
         self.clientIsConnected = True
         print 'Blackboard connected from {0}'.format(self.remoteAddress)
@@ -49,7 +56,13 @@ class ConnectionManager(object):
         
     def _accept(self):
         
-        self.sock, self.remoteAddress = self.listeningSock.accept()
+        print 'Waiting for BlackBoard connection...'
+        
+        try:
+            self.sock, self.remoteAddress = self.listeningSock.accept()
+        except (socket.error, KeyboardInterrupt, SystemExit):
+            self.listeningSock.close()
+            sys.exit()
         
         self.clientIsConnected = True
         print 'Blackboard connected from {0}'.format(self.remoteAddress)
@@ -84,7 +97,7 @@ class ConnectionManager(object):
                 self.sock.close()
                 data = ''
             if data == '':
-                print 'Client disconnected.'
+                print 'BlackBoard disconnected.'
                 self.clientIsConnected = False
                 continue
             

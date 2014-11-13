@@ -20,7 +20,7 @@ from messages import Message, Command, Response
 from connection_manager import ConnectionManager
 from command_parser import CommandParser
 
-__version__ = '1.7.2'
+__version__ = '1.7.3'
 
 ParallelSender = parallel_senders.ParallelSender
 
@@ -119,12 +119,9 @@ def Start():
         print 'pyRobotics needs to be initialized before starting.'
         return
     
-    try:
-        _parser.Start()
-        _connMan.Start()
-        _p.start()
-    except (KeyboardInterrupt, SystemExit):
-        sys.exit()
+    _parser.Start()
+    _connMan.Start()
+    _p.start()
     
     _startedLock.acquire()
     _started = True
