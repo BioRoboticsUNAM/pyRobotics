@@ -20,7 +20,7 @@ from messages import Message, Command, Response
 from connection_manager import ConnectionManager
 from command_parser import CommandParser
 
-__version__ = '1.7.3'
+__version__ = '1.7.4'
 
 ParallelSender = parallel_senders.ParallelSender
 
@@ -200,8 +200,9 @@ def _MainThread():
 def _Execute(func, command):
     try:
         response = func(command)
-    except:
+    except Exception as e:
         print "Function '" + str(func) + "' crashed."
+        print 'ERROR: ' + str(e)
         response = Response.FromCommandObject(command, False, command.params)
     
     if not isinstance(response, Response):
