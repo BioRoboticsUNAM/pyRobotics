@@ -138,7 +138,7 @@ class Command(Message):
     _idCounter = 1
     _idLock = threading.Lock()
     
-    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+(?P<params>"(\\"|[^"])*"))?(\s+@(?P<id>\d+))?$')
+    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z_-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+(?P<params>"(\\"|[^"])*"))?(\s+@(?P<id>\d+))?$')
     
     def __init__(self, commandName, params = "", idNum = None):
         
@@ -192,7 +192,7 @@ class Response(Message):
         This is important because an internal id is generated to keep track of the commands and their responses.
     '''
     
-    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z\-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+(?P<params>"(\\"|[^"])*"))?\s+(?P<result>[10])(\s+@(?P<id>\d+))?$')
+    _rx = re.compile(r'^((?P<src>[A-Za-z][A-Za-z_-]*)\s+)?(?P<cmd>[A-Za-z_]+)(\s+(?P<params>"(\\"|[^"])*"))?\s+(?P<result>[10])(\s+@(?P<id>\d+))?$')
     
     def __init__(self, commandName, successful = False, response = ''):
         super(Response, self).__init__(commandName, response)

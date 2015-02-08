@@ -20,7 +20,7 @@ from messages import Message, Command, Response
 from connection_manager import ConnectionManager
 from command_parser import CommandParser
 
-__version__ = '1.7.4'
+__version__ = '1.7.5'
 
 ParallelSender = parallel_senders.ParallelSender
 
