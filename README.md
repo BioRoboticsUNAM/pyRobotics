@@ -9,7 +9,6 @@ These softwares are all part of the work developed at the Bio-Robotics Laborator
 ### Documentation
 
 The documentation for pyRobotics is [here](http://bioroboticsUNAM.github.io/pyRobotics). Examples can be found in the [github repository](http://github.com/BioRoboticsUNAM/pyRobotics).
-It is still in beta testing.
 If someone should be interested in knowing more about any of these projects, you can contact me at adrianrc[dot]89[at]gmail[dot]com.
 
 ### Installation
@@ -18,7 +17,7 @@ To install the library from a distutils package (pyRobotics-<version>.tar.gz), s
 
 ### IMPORTANT NOTE
 
-The files at the top level folder in the [source repository](http://github.com/BioRoboticsUNAM/pyRobotics) are examples, the actual library is in the pyRobotics folder.
+The files at the top level folder in the [source repository](http://github.com/BioRoboticsUNAM/pyRobotics) are examples, the actual library is in the pyrobotics folder.
 
 LICENSE
 ----------
