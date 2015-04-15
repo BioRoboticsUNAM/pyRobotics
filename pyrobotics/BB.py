@@ -20,7 +20,7 @@ from messages import Message, Command, Response
 from connection_manager import ConnectionManager
 from command_parser import CommandParser
 
-__version__ = '1.7.5'
+__version__ = '1.7.6'
 
 ParallelSender = parallel_senders.ParallelSender
 
@@ -285,7 +285,7 @@ def SendAndWait(command, timeout=300000, attempts = 1):
             _responsesLock.release()
             if response:
                 break
-            time.sleep(0.3)
+            time.sleep(0.1)
     
     _commandsLock.acquire()
     _sentCommands.remove(command)
