@@ -16,7 +16,7 @@ YOU DON'T NEED TO DOWNLOAD THE ENTIRE SOURCE PACKAGE, JUST A DISTUTILS PACKAGE F
 
 To install the library from a distutils package (`pyRobotics-<version>.tar.gz` from the `dist` folder), simply extract the content from the package and run `sudo python setup.py install`.
 
-You can delete the uncompressed source folder and compressed package now, the library should have copied to a source folder in your operating system.
+You can delete the uncompressed source folder and compressed package now, the library should have been copied to a source folder in your operating system.
 
 ### IMPORTANT NOTE
 
