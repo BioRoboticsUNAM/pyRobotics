@@ -12,8 +12,8 @@ The documentation for pyRobotics is [here](http://bioroboticsUNAM.github.io/pyRo
 If someone should be interested in knowing more about any of these projects, you can contact me at adrianrc[dot]89[at]gmail[dot]com.
 
 ### Installation
-
-To install the library from a distutils package (pyRobotics-<version>.tar.gz), simply run `python setup.py install`. (You might need super user permissions)
+YOU DON'T NEED TO DOWNLOAD THE ENTIRE SOURCE PACKAGE, JUST A DISTUTILS PACKAGE FROM THE `dist` FOLDER.
+To install the library from a distutils package (`pyRobotics-<version>.tar.gz` from the `dist` folder), simply extract the content from the package and run `sudo python setup.py install`.
 
 ### IMPORTANT NOTE
 
