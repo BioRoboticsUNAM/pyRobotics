@@ -206,7 +206,7 @@ class Response(Message):
             return None
         
         sCommand = m.group('cmd').lower()
-        sParams = m.group('params').strip()
+        sParams = m.group('params')
         sId = m.group('id')
         sResult = m.group('result')
         idNum = -1
@@ -219,7 +219,7 @@ class Response(Message):
         successful = int(sResult == '1')
         
         if sParams:
-            sParams = Message._DeserializeString(sParams)
+            sParams = Message._DeserializeString(sParams.strip())
         
         r = Response(sCommand, successful, sParams)
         r._id = idNum
