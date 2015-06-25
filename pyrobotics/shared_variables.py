@@ -224,7 +224,7 @@ class SharedVar(Message):
         txt.write('{ ' + str(len(data)) + ' ')
         
         for t in data:
-            txt.write(t[0] + ' ' + str(t[1]) + ' ')
+            txt.write(Message._SerializeString(t[0]) + ' ' + str(t[1]) + ' ')
         
         txt.write('}')
         return txt.getvalue()
@@ -250,13 +250,19 @@ class SharedVar(Message):
         l = []
         for _ in range(count):
             if data[0] != '"':
-                #REVISAR!!!!!!!!!!!
                 return None
-            data = data[1:]
-            pos = data.find('"')
-            if pos < 0:
+            pos = 1
+            str_len = len(data)
+            while pos < str_len:
+                if data[pos] == '"':
+                    break
+                elif data[pos] == '\\':
+                    pos += 1
+                pos += 1
+    
+            if pos == str_len:
                 return None
-            currentText = data[:pos]
+            currentText = Message._DeserializeString(data[:pos + 1])
             data = data[pos+1:].strip()
             if data.find(' ') > -1:
                 currentConfidence, data = data.split(None, 1)
