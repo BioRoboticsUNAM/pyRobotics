@@ -296,7 +296,7 @@ def _WriteSharedVar(sharedVarType, name, data):
     elif sharedVarType == SharedVarTypes.MATRIX:
         w = SharedVar._SerializeMatrix(data)
     elif sharedVarType == SharedVarTypes.RECOGNIZED_SPEECH:
-        w = SharedVar._SerializeSpeech(data)
+        w = SharedVar._SerializeRecognizedSpeech(data)
     else:
         print 'pyRobotics - ERROR: Unhandled shared var type'
         return False
