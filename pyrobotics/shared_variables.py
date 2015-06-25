@@ -1,4 +1,5 @@
 import re
+from StringIO import StringIO
 
 import BB
 from messages import Message, MessageTypes, Command, Response
@@ -203,13 +204,30 @@ class SharedVar(Message):
         rows = len(data)
         cols = len(data[0])
         
-        txt = str(rows) + 'x' + str(cols)
+        txt = StringIO()
+        
+        txt.wtite(str(rows) + 'x' + str(cols))
         
         for r in data:
             for c in r:
-                txt += ' ' + str(c)
+                txt.write(' ' + str(c))
             
-        return txt
+        return txt.getvalue()
+    
+    @classmethod
+    def _SerializeRecognizedSpeech(cls, data):
+        
+        if not data:
+            return None
+        
+        txt = StringIO()
+        txt.write('{ ' + str(len(data)) + ' ')
+        
+        for t in data:
+            txt.write(t[0] + ' ' + str(t[1]) + ' ')
+        
+        txt.write('}')
+        return txt.getvalue()
 
     @classmethod
     def _DeserializeRecognizedSpeech(cls, data):
@@ -271,6 +289,8 @@ def _WriteSharedVar(sharedVarType, name, data):
         w = Message._SerializeString(data)
     elif sharedVarType == SharedVarTypes.MATRIX:
         w = SharedVar._SerializeMatrix(data)
+    elif sharedVarType == SharedVarTypes.RECOGNIZED_SPEECH:
+        w = SharedVar._SerializeSpeech(data)
     else:
         print 'pyRobotics - ERROR: Unhandled shared var type'
         return False
